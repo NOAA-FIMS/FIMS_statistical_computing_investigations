@@ -6,7 +6,7 @@
 template<typename T>
 class FunctionalAnalysis {
 public:
-    typedef atl::Variable<T> Variable;
+    typedef typename atl::Variable<T> Variable;
     T delta = 1e-4;
     std::vector<Variable*> parameters;
     std::vector<T> values;
@@ -24,9 +24,7 @@ public:
 
     }
 
-    virtual Variable Evaluate() {
-
-    }
+    virtual Variable Evaluate()  = 0;
 
     void Analyze() {
 
@@ -38,19 +36,32 @@ public:
             }
         }
 
+        std::cout<<"building argument set...";
         std::vector<T> working(this->parameters.size());
 
         int count = 0;
         int current = 0;
         this->argument_builder(count, current, working, input_values, argument_values);
-
+        std::cout<<"done.\n";
 
 
         //infentesimal step
         for (int i = 0; i < argument_values.size(); i++) {
             this->UpdateParameterSet(argument_values[i]);
 
+            Variable::tape.Reset();
+            Variable v = this->Evaluate();
+            Variable::tape.AccumulateFirstOrder();
+            std::cout<<"Function value: "<<v<<"\nGradient:\n";
+            for(int p =0; p< this->parameters.size(); p++){
+                std::cout<<Variable::tape.Value(this->parameters[p]->info->id)<<"  ";
+            }
+            std::cout<<"\n\n"<<std::flush;
+
         }
+
+
+
 
 
 

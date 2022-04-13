@@ -12,6 +12,7 @@ public:
 
     Variable median;
     Variable slope;
+    std::vector<T> x = {0.1,2,3,4,5,6,7,8,9,10};
 
     Logistic_1() {
 
@@ -30,8 +31,12 @@ public:
      * @param x the index the logistic function should be evaluated at
      * @return
      */
-    virtual Variable Evaluate(T x) {
-        return (1.0) / (1.0 + atl::exp(-1.0 * slope * (x - median)));
+    virtual Variable Evaluate() {
+        Variable ret;
+        for(int i = 0; i < this->x.size(); i++){
+        ret += (1.0) / (1.0 + atl::exp(-1.0 * slope * (x[i] - median)));
+        }
+        return ret;
     }
 
 
