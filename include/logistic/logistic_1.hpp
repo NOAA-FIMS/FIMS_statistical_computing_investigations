@@ -8,17 +8,18 @@
 template<typename T>
 class Logistic_1 : public FunctionalAnalysis<T> {
 public:
+   typedef typename FunctionalAnalysis<double>::Variable Variable;
 
-    T median;
-    T slope;
+    Variable median;
+    Variable slope;
 
     Logistic_1() {
 
     }
 
     virtual void Initialize() {
-        this->parameters.push_back(this->median);
-        this->parameters.push_back(this->slope);
+        this->parameters.push_back(&(this->median));
+        this->parameters.push_back(&(this->slope));
 
     }
 
@@ -29,7 +30,7 @@ public:
      * @param x the index the logistic function should be evaluated at
      * @return
      */
-    virtual T Evaluate(T x) {
+    virtual Variable Evaluate(T x) {
         return (1.0) / (1.0 + atl::exp(-1.0 * slope * (x - median)));
     }
 
