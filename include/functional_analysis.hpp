@@ -36,7 +36,7 @@ public:
             }
         }
 
-        std::cout<<"building argument set...";
+        std::cout<<"building argument set..."<<std::flush;
         std::vector<T> working(this->parameters.size());
 
         int count = 0;
