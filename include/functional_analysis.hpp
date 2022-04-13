@@ -31,7 +31,6 @@ public:
         this->input_values.resize(this->parameters.size());
         for (int i = 0; i < this->parameters.size(); i++) {
             for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += delta) {
-
                 input_values[i].push_back(v);
             }
         }
