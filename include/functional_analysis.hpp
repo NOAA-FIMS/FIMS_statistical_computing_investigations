@@ -2,6 +2,7 @@
 #define FUNCTIONAL_ANALYSIS_HPP
 #include "ATL/ATL.hpp"
 #include <vector>
+#include <limits>
 
 template<typename T>
 class FunctionalAnalysis {
@@ -9,12 +10,17 @@ public:
     typedef typename atl::Variable<T> Variable;
     T delta = 1e-4;
     std::vector<Variable*> parameters;
-    std::vector<T> values;
     std::vector<std::vector<T> > input_values;
     std::vector<std::vector<T> > argument_values;
+    std::vector<T> values;
     std::map<uint32_t, std::vector<T> > derivatives;
     std::vector<std::vector<T> > covariance;
     std::vector<std::vector<T> > correlation;
+    bool is_continuous = false;
+    T min_value = std::limits<T>::max();
+    T max_value = std::limits<T>::max();
+    std::vector<T> argument_min;
+    std::vector<T> argument_max;
 
     FunctionalAnalysis() {
 
@@ -24,10 +30,11 @@ public:
 
     }
 
-    virtual Variable Evaluate()  = 0;
+    virtual Variable Evaluate() = 0;
 
     void Analyze() {
 
+        //initialize all parameter values
         this->input_values.resize(this->parameters.size());
         for (int i = 0; i < this->parameters.size(); i++) {
             for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += delta) {
@@ -35,39 +42,64 @@ public:
             }
         }
 
-        std::cout<<"building argument set..."<<std::flush;
+        //create argument list. Combination of input_values size(input_values) choose size(parameters)
+        std::cout << "\nBuilding argument set..." << std::flush;
         std::vector<T> working(this->parameters.size());
 
         int count = 0;
         int current = 0;
         this->argument_builder(count, current, working, input_values, argument_values);
-        std::cout<<"done.\n";
+        std::cout << "done.\n";
 
 
-        //infentesimal step
+        //Run Infinitesimal step - Riemann
         for (int i = 0; i < argument_values.size(); i++) {
+
+            std::cout << (i + 1) << " of " << argument_values.size() << " (" << (((double) i / (double) argument_values.size())*100) << "%)" << std::endl;
             this->UpdateParameterSet(argument_values[i]);
 
+            //reset the tape
             Variable::tape.Reset();
+
             Variable v = this->Evaluate();
-            Variable::tape.AccumulateFirstOrder();
-            std::cout<<"Function value: "<<v<<"\nGradient:\n";
-            for(int p =0; p< this->parameters.size(); p++){
-                std::cout<<Variable::tape.Value(this->parameters[p]->info->id)<<"  ";
+            //store values
+            this->values.push_back(v.GetValue());
+
+            //check min and max value
+            if (v < this->min_value) {
+                this->min_value = v.GetValue();
+                this->argument_min = argument_values[i];
             }
-            std::cout<<"\n\n"<<std::flush;
+
+            if (v > this->max_value) {
+                this->max_value = v.GetValue();
+                this->argument_max = argument_values[i];
+            }
+
+
+            //compute derivatives
+            Variable::tape.AccumulateFirstOrder();
+
+
+            std::cout << "Function value: " << v << "\nGradient:\n";
+            for (int p = 0; p< this->parameters.size(); p++) {
+                std::cout << Variable::tape.Value(this->parameters[p]->info->id) << "  ";
+                //store derivatives
+                this->derivatives[this->parameters[p]->info->id].push_back(Variable::tape.Value(this->parameters[p]->info->id));
+            }
+            std::cout << "\n\n" << std::flush;
 
         }
 
+        //quantify continuity
 
+        //quantify smoothness
 
+        //quantify correlations
 
+    }
 
-
-        //values
-
-        //derivatives
-
+    void Finalize() {
 
     }
 
