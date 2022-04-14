@@ -3,6 +3,7 @@
 #include "ATL/ATL.hpp"
 #include <vector>
 #include <limits>
+#include <chrono>
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
 #define PBWIDTH 60
@@ -11,31 +12,78 @@ template<typename T>
 class FunctionalAnalysis {
 public:
     typedef typename atl::Variable<T> Variable;
+
     T delta = 1e-4;
+
+    //parameter list
     std::vector<Variable*> parameters;
+
+    //all possible input values
     std::vector<std::vector<T> > input_values;
-    std::vector<std::vector<T> > argument_values;
+
+    //parameter set
+    std::vector<std::vector<T> > parameter_sets;
+
+    //function values from each evaluation
     std::vector<T> values;
+
+    //derivatives from each evaluation
     std::map<uint32_t, std::vector<T> > derivatives;
+
+    //Covariance indicates the direction of the linear relationship between variables.
+    //values are standardized
     std::vector<std::vector<T> > covariance;
+
+    //Correlation measures both the strength and direction of the linear relationship between two variables.
+    //values are not standardized
     std::vector<std::vector<T> > correlation;
+
     bool is_continuous = false;
+
+    //min evaluated function value
     T min_value = std::numeric_limits<T>::max();
+
+    //max evaluated function value
     T max_value = std::numeric_limits<T>::max();
-    std::vector<T> argument_min;
-    std::vector<T> argument_max;
+
+    //parameter set for the min evaluated function value
+    std::vector<T> parameter_set_min;
+
+    //parameter set for the max evaluated function value
+    std::vector<T> parameter_set_max;
+
+    //analysis start time
+    std::chrono::time_point<std::chrono::system_clock> start_time;
+
+    //analysis end time
+    std::chrono::time_point<std::chrono::system_clock> end_time;
+
+    //total time to do the function analysis
+    double runtime;
 
     FunctionalAnalysis() {
 
     }
 
-    virtual void Initialize() {
+    /**
+     * Initialize parameter set. Must be overloaded.
+     * 
+     */
+    virtual void Initialize() = 0;
 
-    }
-
+    /**
+     * The function to analyze. Must be overloaded.
+     * 
+     * @return 
+     */
     virtual Variable Evaluate() = 0;
 
+    /**
+     * Analyzes computational properties of a child function.
+     */
     void Analyze() {
+
+        this->start_time = std::chrono::system_clock::now();
 
         //initialize all parameter values
         this->input_values.resize(this->parameters.size());
@@ -48,50 +96,48 @@ public:
         //create argument list. Combination of input_values size(input_values) choose size(parameters)
         std::cout << "\nBuilding argument set..." << std::flush;
         std::vector<T> working(this->parameters.size());
-
         int count = 0;
         int current = 0;
-        this->ArgumentBuilder(count, current, working, input_values, argument_values);
+        this->ArgumentBuilder(count, current, working, input_values, parameter_sets);
         std::cout << "done.\n";
 
 
         //Run Infinitesimal step - Riemann
-        for (int i = 0; i < argument_values.size(); i++) {
+        for (int i = 0; i < parameter_sets.size(); i++) {
 
-//            std::cout << (i + 1) << " of " << argument_values.size() << " (" << (((double) i / (double) argument_values.size())*100) << "%)" << std::endl;
-            this->UpdateParameterSet(argument_values[i]);
+            //show progress
+            this->Progress(((double) i / (double) parameter_sets.size()));
 
-            this->Progress(((double) i / (double) argument_values.size()));
+            //update parameter set
+            this->UpdateParameterSet(parameter_sets[i]);
+
             //reset the tape
             Variable::tape.Reset();
 
+            //evaluate the test function
             Variable v = this->Evaluate();
+
             //store values
             this->values.push_back(v.GetValue());
 
             //check min and max value
             if (v < this->min_value) {
                 this->min_value = v.GetValue();
-                this->argument_min = argument_values[i];
+                this->parameter_set_min = parameter_sets[i];
             }
 
             if (v > this->max_value) {
                 this->max_value = v.GetValue();
-                this->argument_max = argument_values[i];
+                this->parameter_set_max = parameter_sets[i];
             }
-
 
             //compute derivatives
             Variable::tape.AccumulateFirstOrder();
 
-
-//            std::cout << "Function value: " << v << "\nGradient:\n";
+            //store derivatives
             for (int p = 0; p< this->parameters.size(); p++) {
-//                std::cout << Variable::tape.Value(this->parameters[p]->info->id) << "  ";
-                //store derivatives
                 this->derivatives[this->parameters[p]->info->id].push_back(Variable::tape.Value(this->parameters[p]->info->id));
             }
-//            std::cout << "\n\n" << std::flush;
 
         }
 
@@ -99,8 +145,13 @@ public:
 
         //quantify smoothness
 
-        //quantify correlations
+        //covariance
 
+        //correlations
+
+
+        this->end_time = std::chrono::system_clock::now();
+        this->runtime = std::chrono::duration_cast<std::chrono::minutes>(end_time - start_time).count();
     }
 
     void Finalize() {
@@ -109,7 +160,19 @@ public:
 
 private:
 
-    void ArgumentBuilder(int& count, int current, std::vector<T>& working, std::vector<std::vector<T> >& source, std::vector<std::vector<T> >& combos) {
+    /**
+     * Creates parameter sets based on combination of 
+     * input_values size(input_values) choose size(parameters).
+     * 
+     * @param count
+     * @param current
+     * @param working
+     * @param source
+     * @param combos
+     */
+    void ArgumentBuilder(int& count, int current, std::vector<T>& working,
+            std::vector<std::vector<T> >& source,
+            std::vector<std::vector<T> >& combos) {
 
 
         if (current == 0) {
@@ -138,18 +201,28 @@ private:
         }
     }
 
+    /**
+     * Updates the parameter set.
+     * 
+     * @param v
+     */
     void UpdateParameterSet(std::vector<T>& v) {
         for (int i = 0; i < v.size(); i++) {
             this->parameters[i]->SetValue(v[i]);
         }
     }
 
+    /**
+     * Prints the progress of the analysis.
+     *  
+     * @param percentage
+     */
     void Progress(double percentage) {
         int val = (int) (percentage * 100);
         int lpad = (int) (percentage * PBWIDTH);
         int rpad = PBWIDTH - lpad;
         printf("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
-        fflush(stdout);
+        std::cout << std::flush;
     }
 
 };
