@@ -1,0 +1,10 @@
+Name: logistic
+Description:
+Functional analysis of the logistic function.
+
+Number of parameter sets: 16200
+Infinitesimal Step: 0.005
+Continuous: 1
+Function Smoothness: 0.40342
+Derivative Smoothness of "median": 0.38165
+Derivative Smoothness of "slope": 0.45848

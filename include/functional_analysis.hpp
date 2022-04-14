@@ -11,6 +11,10 @@
 template<typename T>
 class FunctionalAnalysis {
 public:
+
+    std::string name;
+    std::string description;
+
     typedef typename atl::Variable<T> Variable;
 
     T delta = 1e-4;
@@ -29,6 +33,10 @@ public:
 
     //derivatives from each evaluation
     std::map<uint32_t, std::vector<T> > derivatives;
+    
+
+
+    std::map<uint32_t, T > smoothness_of_derivatives;
 
     //Covariance indicates the direction of the linear relationship between variables.
     //values are standardized
@@ -38,7 +46,9 @@ public:
     //values are not standardized
     std::vector<std::vector<T> > correlation;
 
-    bool is_continuous = false;
+    bool is_continuous = true;
+        std::vector<std::vector<T> > discontinuity_sets;
+        
 
     //min evaluated function value
     T min_value = std::numeric_limits<T>::max();
@@ -60,6 +70,17 @@ public:
 
     //total time to do the function analysis
     double runtime;
+
+    T smoothness;
+
+
+    std::vector<std::vector<T> > lower_bound_covariance;
+    std::vector<std::vector<T> > upper_bound_covariance;
+    std::vector<std::vector<T> > central_bound_covariance;
+
+    std::vector<std::vector<T> > lower_bound_correlation;
+    std::vector<std::vector<T> > upper_bound_correlation;
+    std::vector<std::vector<T> > central_bound_correlation;
 
     FunctionalAnalysis() {
 
@@ -100,7 +121,8 @@ public:
         int current = 0;
         this->ArgumentBuilder(count, current, working, input_values, parameter_sets);
         std::cout << "done.\n";
-
+        std::cout<<"Infinitesimal Step: "<<this->delta<<"\n";
+        std::cout << "Number of parameter sets: " << parameter_sets.size() << "\n";
 
         //Run Infinitesimal step - Riemann
         for (int i = 0; i < parameter_sets.size(); i++) {
@@ -141,9 +163,39 @@ public:
 
         }
 
-        //quantify continuity
-
         //quantify smoothness
+        std::vector<T> diff = Diff(this->values);
+        this->smoothness = StandardDeviation(diff) / std::fabs(Mean(diff));
+
+        //quantify derivative smoothness and continuity
+        for (int i = 0; i < this->values.size(); i++) {
+            for (int j = 0; j < this->parameters.size(); j++) {
+                std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
+
+                std::vector<T> diff = Diff(derivatives);
+                this->smoothness_of_derivatives[this->parameters[j]->info->id] =
+                        StandardDeviation(diff) / std::fabs(Mean(diff));
+
+                for (int k = 0; k < derivatives.size(); k++) {
+                    if (derivatives[k] != derivatives[k]) {
+                        this->is_continuous = false;
+                        this->discontinuity_sets.push_back(this->parameter_sets[i]);
+                        
+                        //                        break;
+                    }
+                }
+            }
+        }
+
+
+
+        //        //quantify derivative smoothness
+        //        for (int j = 0; j < parameter_sets.size(); j++) {
+        //            std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
+        //
+        //            this->smoothness_of_derivatives[this->parameters[j]->info->id] =
+        //                    StandardDeviation(Diff(derivatives)) / std::fabs(Mean(Diff(derivatives)));
+        //        }
 
         //covariance
 
@@ -155,6 +207,25 @@ public:
     }
 
     void Finalize() {
+
+        std::stringstream ss;
+        ss << this->name << "_functional_analysis.txt";
+        std::ofstream out(ss.str());
+
+        out << "Name: " << this->name << std::endl;
+        out << "Description:\n" << this->description << "\n\n";
+        out << "Number of parameter sets: " << parameter_sets.size() << "\n";
+        out << "Infinitesimal Step: " << this->delta << "\n";
+        out << "Continuous: " << this->is_continuous << "\n";
+        out << "Function Smoothness: " << this->smoothness << "\n";
+
+        for (int i = 0; i < this->parameters.size(); i++) {
+            out << "Derivative Smoothness of \"" << this->parameters[i]->GetName() << "\": " << smoothness_of_derivatives[this->parameters[i]->info->id] << "\n";
+        }
+
+        out.close();
+        this->Progress(1.0);
+        std::cout << "\n";
 
     }
 
@@ -224,6 +295,38 @@ private:
         printf("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
         std::cout << std::flush;
     }
+
+    const std::vector<T> Diff(const std::vector<T>& v, int lag = 1) {
+
+        std::vector<T> difference;
+
+        for (int i = lag; i < v.size(); i += lag) {
+            if (i < v.size() - 1) {
+                difference.push_back(v[i - lag] - v[lag]);
+            }
+        }
+
+        return difference;
+    }
+
+    T Mean(const std::vector<T>& v) {
+        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+        T mean = sum / v.size();
+
+        return mean;
+    }
+
+    T StandardDeviation(const std::vector<T>& v) {
+        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+        T mean = sum / v.size();
+
+        T sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+        T stdev = std::sqrt(sq_sum / v.size() - mean * mean);
+
+        return stdev;
+    }
+
+
 
 };
 

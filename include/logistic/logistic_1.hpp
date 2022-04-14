@@ -19,7 +19,11 @@ public:
     }
 
     virtual void Initialize() {
+        this->name = "logistic";
+        this->description = "Functional analysis of the logistic function.";
+        this->median.SetName("median");
         this->parameters.push_back(&(this->median));
+        this->slope.SetName("slope");
         this->parameters.push_back(&(this->slope));
 
     }
