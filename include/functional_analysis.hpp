@@ -119,7 +119,7 @@ public:
         std::vector<T> working(this->parameters.size());
         int count = 0;
         int current = 0;
-        this->ArgumentBuilder(count, current, working, input_values, parameter_sets);
+        this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
         std::cout << "done.\n";
         std::cout<<"Infinitesimal Step: "<<this->delta<<"\n";
         std::cout << "Number of parameter sets: " << parameter_sets.size() << "\n";
@@ -241,7 +241,7 @@ private:
      * @param source
      * @param combos
      */
-    void ArgumentBuilder(int& count, int current, std::vector<T>& working,
+    void ParameterSetsBuilder(int& count, int current, std::vector<T>& working,
             std::vector<std::vector<T> >& source,
             std::vector<std::vector<T> >& combos) {
 
@@ -250,14 +250,14 @@ private:
             for (int i = 0; i < source[0].size(); i++) {
                 std::vector<T> v;
                 v.push_back(source[0][i]);
-                ArgumentBuilder(count, current + 1, v, source, combos);
+                ParameterSetsBuilder(count, current + 1, v, source, combos);
             }
         } else if (current < source.size() - 1) {
             std::vector<T> v = working;
             //            v.push_back(0);
             for (int i = 0; i < source[current].size(); i++) {
                 v[v.size() - 1] = source[current][i];
-                ArgumentBuilder(count, current + 1, v, source, combos);
+                ParameterSetsBuilder(count, current + 1, v, source, combos);
             }
         } else {
 
