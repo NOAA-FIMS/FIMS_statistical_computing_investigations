@@ -33,7 +33,7 @@ public:
 
     //derivatives from each evaluation
     std::map<uint32_t, std::vector<T> > derivatives;
-    
+
 
 
     std::map<uint32_t, T > smoothness_of_derivatives;
@@ -47,8 +47,10 @@ public:
     std::vector<std::vector<T> > correlation;
 
     bool is_continuous = true;
-        std::vector<std::vector<T> > discontinuity_sets;
-        
+
+    //parameter sets that lead to NaN
+    std::vector<std::vector<T> > discontinuity_sets;
+
 
     //min evaluated function value
     T min_value = std::numeric_limits<T>::max();
@@ -104,6 +106,7 @@ public:
      */
     void Analyze() {
 
+        double progress = 0;
         this->start_time = std::chrono::system_clock::now();
 
         //initialize all parameter values
@@ -121,14 +124,15 @@ public:
         int current = 0;
         this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
         std::cout << "done.\n";
-        std::cout<<"Infinitesimal Step: "<<this->delta<<"\n";
+        std::cout << "Infinitesimal Step: " << this->delta << "\n";
         std::cout << "Number of parameter sets: " << parameter_sets.size() << "\n";
 
         //Run Infinitesimal step - Riemann
         for (int i = 0; i < parameter_sets.size(); i++) {
 
+            progress = ((double) i / (double) parameter_sets.size())*.5;
             //show progress
-            this->Progress(((double) i / (double) parameter_sets.size()));
+            this->Progress(progress);
 
             //update parameter set
             this->UpdateParameterSet(parameter_sets[i]);
@@ -177,27 +181,17 @@ public:
                         StandardDeviation(diff) / std::fabs(Mean(diff));
 
                 for (int k = 0; k < derivatives.size(); k++) {
-                    if (derivatives[k] != derivatives[k]) {
+                    if (derivatives[k] != derivatives[k]) {//NaN
                         this->is_continuous = false;
                         this->discontinuity_sets.push_back(this->parameter_sets[i]);
-                        
-                        //                        break;
                     }
                 }
             }
         }
 
-
-
-        //        //quantify derivative smoothness
-        //        for (int j = 0; j < parameter_sets.size(); j++) {
-        //            std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
-        //
-        //            this->smoothness_of_derivatives[this->parameters[j]->info->id] =
-        //                    StandardDeviation(Diff(derivatives)) / std::fabs(Mean(Diff(derivatives)));
-        //        }
-
         //covariance
+
+
 
         //correlations
 
@@ -326,7 +320,59 @@ private:
         return stdev;
     }
 
+    T StandardDeviation(const std::vector<T>& v, const T& mean) {
+        T sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+        T stdev = std::sqrt(sq_sum / v.size() - mean * mean);
 
+        return stdev;
+    }
+
+    const std::vector<std::vector<T> > CovarianceMatrix(const std::vector<T>& x) {
+        atl::Variable<T>::tape.Reset();
+        Variable::tape.derivative_trace_level = atl::SECOND_ORDER_REVERSE;
+
+        for (int i = 0; i < x.size(); i++) {
+            this->parameters[i]->SetValue(x[i]);
+        }
+
+        Variable f = this->Evaluate();
+
+        Variable::tape.AccumulateSecondOrder();
+        atl::RealMatrix<T> inverse_hessian(this->parameters.size(), this->parameters.size());
+
+        for (int i = 0; i < this->parameters.size(); i++) {
+            for (int j = 0; j < this->parameters.size(); j++) {
+                T dxx = atl::Variable<T>::tape.Value(this->parameters[i]->info->id,
+                        this->parameters[j]->info->id);
+                if (dxx != dxx) {//this is a big hack
+                    dxx = std::numeric_limits<T>::min();
+                }
+                inverse_hessian(i, j) = dxx;
+            }
+        }
+        inverse_hessian.Invert();
+
+        std::vector<std::vector<T> > inverse_hessian_ret(this->parameters.size(), std::vector<T>(this->parameters.size()));
+        for (int i = 0; i < this->parameters.size(); i++) {
+            for (int j = 0; j < this->parameters.size(); j++) {
+                inverse_hessian_ret[i][j] = inverse_hessian(i, j);
+            }
+        }
+
+        return inverse_hessian_ret;
+    }
+
+    const std::vector<std::vector<T> > CorrelationMatrix(const std::vector<std::vector<T> >& covariance) {
+
+        std::vector<std::vector<T> > correlation(this->parameters.size(), std::vector<T>(this->parameters.size()));
+        for (int i = 0; i < this->parameters.size(); i++) {
+            for (int j = 0; j < this->parameters.size(); j++) {
+                //corr(x,y) = cov(x,y)/stdev_x*stdev_y
+                correlation[i][j] = covariance[i][j] / (covariance[i][i] * covariance[j][j]);
+            }
+        }
+        return correlation;
+    }
 
 };
 
