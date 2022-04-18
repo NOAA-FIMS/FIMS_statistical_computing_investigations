@@ -9,6 +9,20 @@
 #define PBWIDTH 60
 
 template<typename T>
+std::ostream& operator<<(std::ostream& out, const std::vector<std::vector<T> >& m) {
+
+    out << std::scientific;
+
+    for (int i = 0; i < m.size(); i++) {
+        for (int j = 0; j < m[i].size(); j++) {
+            out << m[i][j] << "    ";
+        }
+        out << "\n";
+    }
+    return out;
+}
+
+template<typename T>
 class FunctionalAnalysis {
 public:
 
@@ -17,7 +31,7 @@ public:
 
     typedef typename atl::Variable<T> Variable;
 
-    T delta = 1e-4;
+    T delta = 1e-3;
 
     //parameter list
     std::vector<Variable*> parameters;
@@ -171,9 +185,15 @@ public:
         std::vector<T> diff = Diff(this->values);
         this->smoothness = StandardDeviation(diff) / std::fabs(Mean(diff));
 
+        double progress_2 = 0;
         //quantify derivative smoothness and continuity
         for (int i = 0; i < this->values.size(); i++) {
+            progress_2 = ((double) i / (double) this->values.size())*.5;
+            //show progress
+            this->Progress(progress + progress_2);
+
             for (int j = 0; j < this->parameters.size(); j++) {
+
                 std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
 
                 std::vector<T> diff = Diff(derivatives);
@@ -189,15 +209,23 @@ public:
             }
         }
 
-        //covariance
 
+        //covariance
+        this->lower_bound_covariance = this->CovarianceMatrix(this->parameter_sets[0]);
+        this->central_bound_covariance = this->CovarianceMatrix(this->parameter_sets[static_cast<size_t> (this->parameter_sets.size() / 2.0)]);
+        this->upper_bound_covariance = this->CovarianceMatrix(this->parameter_sets[static_cast<size_t> (this->parameter_sets.size() - 1)]);
 
 
         //correlations
-
+        this->lower_bound_correlation = this->CorrelationMatrix(this->lower_bound_covariance);
+        this->central_bound_correlation = this->CorrelationMatrix(this->central_bound_covariance);
+        this->upper_bound_correlation = this->CorrelationMatrix(this->upper_bound_covariance);
 
         this->end_time = std::chrono::system_clock::now();
         this->runtime = std::chrono::duration_cast<std::chrono::minutes>(end_time - start_time).count();
+
+        progress = 0.98;
+        this->Progress(progress);
     }
 
     void Finalize() {
@@ -217,13 +245,33 @@ public:
             out << "Derivative Smoothness of \"" << this->parameters[i]->GetName() << "\": " << smoothness_of_derivatives[this->parameters[i]->info->id] << "\n";
         }
 
+        out << "\nCovariance:\n";
+        out << "lower bounds:\n";
+        out << this->lower_bound_covariance;
+
+        out << "\ncentral bounds:\n";
+        out << this->central_bound_covariance;
+
+        out << "\nupper bounds:\n";
+        out << this->upper_bound_covariance;
+
+        out << "\n\nCorrelation:\n";
+        out << "lower bounds:\n";
+        out << this->lower_bound_correlation;
+
+        out << "\ncentral bounds:\n";
+        out << this->central_bound_correlation;
+
+        out << "\nupper bounds:\n";
+        out << this->upper_bound_correlation;
+
         out.close();
         this->Progress(1.0);
         std::cout << "\n";
 
     }
 
-private:
+    //private:
 
     /**
      * Creates parameter sets based on combination of 
@@ -327,6 +375,11 @@ private:
         return stdev;
     }
 
+    /**
+     * \f$\ cov = H^-1 \f$
+     * @param x
+     * @return 
+     */
     const std::vector<std::vector<T> > CovarianceMatrix(const std::vector<T>& x) {
         atl::Variable<T>::tape.Reset();
         Variable::tape.derivative_trace_level = atl::SECOND_ORDER_REVERSE;
@@ -362,6 +415,12 @@ private:
         return inverse_hessian_ret;
     }
 
+    /**
+     * \f$\ corr(x,y) = cov(x,y)/(sigma_x*sigma_y) \f$
+     * 
+     * @param covariance matrix
+     * @return 
+     */
     const std::vector<std::vector<T> > CorrelationMatrix(const std::vector<std::vector<T> >& covariance) {
 
         std::vector<std::vector<T> > correlation(this->parameters.size(), std::vector<T>(this->parameters.size()));
