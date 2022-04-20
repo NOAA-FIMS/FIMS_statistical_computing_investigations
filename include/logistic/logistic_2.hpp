@@ -11,7 +11,7 @@ public:
    typedef typename FunctionalAnalysis<double>::Variable Variable;
 
     Variable median;
-    Variable slope;
+    Variable invslope;
     std::vector<T> x = {0.1,2,3,4,5,6,7,8,9,10};
 
     Logistic_2() {
