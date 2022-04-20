@@ -6,7 +6,7 @@
 #include "../functional_analysis.hpp"
 
 template<typename T>
-class Logistic_1 : public FunctionalAnalysis<T> {
+class Logistic_2 : public FunctionalAnalysis<T> {
 public:
    typedef typename FunctionalAnalysis<double>::Variable Variable;
 
@@ -14,7 +14,7 @@ public:
     Variable slope;
     std::vector<T> x = {0.1,2,3,4,5,6,7,8,9,10};
 
-    Logistic_1() {
+    Logistic_2() {
 
     }
 
