@@ -67,7 +67,7 @@ public:
 
 
     //min evaluated function value
-    T min_value = std::numeric_limits<T>::max();
+    T min_value = std::numeric_limits<T>::min();
 
     //max evaluated function value
     T max_value = std::numeric_limits<T>::max();
