@@ -135,7 +135,7 @@ public:
     void Analyze() {
 
 
-        std::cout<<"Running analysis for "<<this->name<<"...\n";
+        std::cout << "Running analysis for " << this->name << "...\n";
         double progress = 0;
         this->start_time = std::chrono::system_clock::now();
 
@@ -274,8 +274,12 @@ public:
 
         out << "Name: " << this->name << std::endl;
         out << "Description:\n" << this->description << "\n\n";
-        out << "Run time(min): " << this->runtime << "\n";
+        out << "Run time(seconds): " << this->runtime << "\n";
         out << "Number of parameter sets: " << parameter_sets.size() << "\n";
+        out << "Parameter Range: \n";
+        for (int i = 0; i < this->parameters.size(); i++) {
+            out << std::setw(15)<<std::left << this->parameters[i]->GetName() << "\t" << std::setw(7) <<std::left << this->parameters[i]->GetMinBoundary() << "  -  " << this->parameters[i]->GetMaxBoundary() << "\n";
+        }
         out << "Infinitesimal Step: \n";
 
         for (int i = 0; i < this->parameters.size(); i++) {

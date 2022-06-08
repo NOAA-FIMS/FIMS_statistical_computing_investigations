@@ -23,7 +23,7 @@ public:
     }
 
     virtual void Initialize() {
-        this->name = "double logistic";
+        this->name = "double_logistic_max";
         this->description = "Functional analysis of the double logistic function.";
 
         this->median_asc.SetName("median_asc");
@@ -45,6 +45,7 @@ public:
         this->RegisterParameter(this->slope_desc, 0.01);
 
         this->X.SetBounds(1, 10);
+        this->X.SetName("X");
         this->RegisterParameter(this->X, 1.0);
 
 
