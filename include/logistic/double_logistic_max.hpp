@@ -37,6 +37,17 @@ public:
 
     }
 
+void updateMax() {
+    Variable temp;
+    max_ = 0;
+
+    int n = x.size();
+    for(int i=0; i<n; i++){
+        temp = (1.0) / (1.0 + exp(-1.0 * slope_asc * (x[i] - median_asc))) *
+        (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (x[i] - median_desc))));
+        max_ = atl::ad_max(temp, max_)
+    }
+}
 /**
  * @brief The general double logistic function
  *
@@ -57,16 +68,7 @@ public:
  * @return
  */
     virtual Variable Evaluate() {
-        std::vector y(x.size());
-        max_ = 0;
-
-        int n = x.size();
-        for(int i=0; i<n; i++){
-            y[i] = (1.0) / (1.0 + exp(-1.0 * slope_asc * (x - median_asc))) *
-         (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (x - median_desc))));
-         max_ = atl::ad_max(y[i], max_)
-        }
-        
+        updateMax();
         Variable ret;
         ret = (1.0) / (1.0 + exp(-1.0 * slope_asc * (x - median_asc))) *
          (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (x - median_desc))));
