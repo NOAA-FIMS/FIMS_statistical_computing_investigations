@@ -5,10 +5,10 @@
 
 int main(int argc, char** argv) {
 //
-//    Logistic_1<double > logistic;
-//    logistic.Initialize();
-//    logistic.Analyze();
-//    logistic.Finalize();
+    Logistic_1<double > logistic;
+    logistic.Initialize();
+    logistic.Analyze();
+    logistic.Finalize();
 
     DoubleLogisticMax<double> double_logistic;
     double_logistic.Initialize();
