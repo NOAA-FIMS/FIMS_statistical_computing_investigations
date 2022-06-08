@@ -1,0 +1,212 @@
+Performing C++ SOURCE FILE Test STXXL_HAVE_LINUXAIO_FILE failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_c1790/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_c1790.dir/build.make CMakeFiles/cmTC_c1790.dir/build
+Building CXX object CMakeFiles/cmTC_c1790.dir/src.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -DSTXXL_HAVE_LINUXAIO_FILE  -W -Wall -pedantic -Wno-long-long -Wextra -ftemplate-depth=1024 -std=c++11 -stdlib=libc++  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_c1790.dir/src.cxx.o -MF CMakeFiles/cmTC_c1790.dir/src.cxx.o.d -o CMakeFiles/cmTC_c1790.dir/src.cxx.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp/src.cxx
+/Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp/src.cxx:3:13: fatal error: 'linux/aio_abi.h' file not found
+   #include <linux/aio_abi.h>
+            ^~~~~~~~~~~~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_c1790.dir/src.cxx.o] Error 1
+make: *** [cmTC_c1790/fast] Error 2
+
+
+Source file was:
+#include <unistd.h>
+   #include <sys/syscall.h>
+   #include <linux/aio_abi.h>
+   int main() {
+       aio_context_t context;
+       long r = syscall(SYS_io_setup, 5, &context);
+       return (r == 0) ? 0 : -1;
+   }
+Detecting C OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_ad33d/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ad33d.dir/build.make CMakeFiles/cmTC_ad33d.dir/build
+Building C object CMakeFiles/cmTC_ad33d.dir/OpenMPTryFlag.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -fopenmp=libomp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_ad33d.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_ad33d.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_ad33d.dir/OpenMPTryFlag.c.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+clang: error: unsupported argument 'libomp' to option 'fopenmp='
+make[1]: *** [CMakeFiles/cmTC_ad33d.dir/OpenMPTryFlag.c.o] Error 1
+make: *** [cmTC_ad33d/fast] Error 2
+
+
+
+Detecting C OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_96723/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_96723.dir/build.make CMakeFiles/cmTC_96723.dir/build
+Building C object CMakeFiles/cmTC_96723.dir/OpenMPTryFlag.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -fopenmp=libiomp5 -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_96723.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_96723.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_96723.dir/OpenMPTryFlag.c.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+clang: error: unsupported argument 'libiomp5' to option 'fopenmp='
+make[1]: *** [CMakeFiles/cmTC_96723.dir/OpenMPTryFlag.c.o] Error 1
+make: *** [cmTC_96723/fast] Error 2
+
+
+
+Detecting C OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_ca733/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ca733.dir/build.make CMakeFiles/cmTC_ca733.dir/build
+Building C object CMakeFiles/cmTC_ca733.dir/OpenMPTryFlag.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -fopenmp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_ca733.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_ca733.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_ca733.dir/OpenMPTryFlag.c.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+clang: error: unsupported option '-fopenmp'
+make[1]: *** [CMakeFiles/cmTC_ca733.dir/OpenMPTryFlag.c.o] Error 1
+make: *** [cmTC_ca733/fast] Error 2
+
+
+
+Detecting C OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_39e2a/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_39e2a.dir/build.make CMakeFiles/cmTC_39e2a.dir/build
+Building C object CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Xclang -fopenmp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o -MF CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o.d -o CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx10.15.0 -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name OpenMPTryFlag.c -mrelocation-model pic -pic-level 2 -mthread-model posix -mframe-pointer=all -fno-strict-return -masm-verbose -munwind-tables -target-sdk-version=11.1 -target-cpu penryn -dwarf-column-info -debugger-tuning=lldb -target-linker-version 609.8 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -fdebug-compilation-dir /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fobjc-runtime=macosx-10.15.0 -fmax-type-align=16 -fdiagnostics-show-option -fopenmp -o CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o -x c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+clang -cc1 version 12.0.0 (clang-1200.0.32.29) default target x86_64-apple-darwin19.6.0
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/local/include"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/Library/Frameworks"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks (framework directory)
+End of search list.
+/Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_39e2a.dir/OpenMPTryFlag.c.o] Error 1
+make: *** [cmTC_39e2a/fast] Error 2
+
+
+
+Detecting CXX OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_250de/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_250de.dir/build.make CMakeFiles/cmTC_250de.dir/build
+Building CXX object CMakeFiles/cmTC_250de.dir/OpenMPTryFlag.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -W -Wall -pedantic -Wno-long-long -Wextra -ftemplate-depth=1024 -std=c++11 -stdlib=libc++ -fopenmp=libomp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_250de.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_250de.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_250de.dir/OpenMPTryFlag.cpp.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include/c++/v1"
+clang: error: unsupported argument 'libomp' to option 'fopenmp='
+make[1]: *** [CMakeFiles/cmTC_250de.dir/OpenMPTryFlag.cpp.o] Error 1
+make: *** [cmTC_250de/fast] Error 2
+
+
+
+Detecting CXX OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_e0792/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_e0792.dir/build.make CMakeFiles/cmTC_e0792.dir/build
+Building CXX object CMakeFiles/cmTC_e0792.dir/OpenMPTryFlag.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -W -Wall -pedantic -Wno-long-long -Wextra -ftemplate-depth=1024 -std=c++11 -stdlib=libc++ -fopenmp=libiomp5 -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_e0792.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_e0792.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_e0792.dir/OpenMPTryFlag.cpp.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include/c++/v1"
+clang: error: unsupported argument 'libiomp5' to option 'fopenmp='
+make[1]: *** [CMakeFiles/cmTC_e0792.dir/OpenMPTryFlag.cpp.o] Error 1
+make: *** [cmTC_e0792/fast] Error 2
+
+
+
+Detecting CXX OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_46d03/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_46d03.dir/build.make CMakeFiles/cmTC_46d03.dir/build
+Building CXX object CMakeFiles/cmTC_46d03.dir/OpenMPTryFlag.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -W -Wall -pedantic -Wno-long-long -Wextra -ftemplate-depth=1024 -std=c++11 -stdlib=libc++ -fopenmp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_46d03.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_46d03.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_46d03.dir/OpenMPTryFlag.cpp.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include/c++/v1"
+clang: error: unsupported option '-fopenmp'
+make[1]: *** [CMakeFiles/cmTC_46d03.dir/OpenMPTryFlag.cpp.o] Error 1
+make: *** [cmTC_46d03/fast] Error 2
+
+
+
+Detecting CXX OpenMP failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_e7af2/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_e7af2.dir/build.make CMakeFiles/cmTC_e7af2.dir/build
+Building CXX object CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -W -Wall -pedantic -Wno-long-long -Wextra -ftemplate-depth=1024 -std=c++11 -stdlib=libc++ -Xclang -fopenmp -v -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o -MF CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o.d -o CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+Apple clang version 12.0.0 (clang-1200.0.32.29)
+Target: x86_64-apple-darwin19.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include/c++/v1"
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx10.15.0 -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name OpenMPTryFlag.cpp -mrelocation-model pic -pic-level 2 -mthread-model posix -mframe-pointer=all -fno-strict-return -masm-verbose -munwind-tables -target-sdk-version=11.1 -target-cpu penryn -dwarf-column-info -debugger-tuning=lldb -target-linker-version 609.8 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -stdlib=libc++ -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -W -Wall -Wno-long-long -Wextra -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -pedantic -std=c++11 -fdeprecated-macro -fdebug-compilation-dir /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp -ftemplate-depth 1024 -ferror-limit 19 -fmessage-length 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fobjc-runtime=macosx-10.15.0 -fcxx-exceptions -fexceptions -fmax-type-align=16 -fdiagnostics-show-option -fopenmp -o CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o -x c++ /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+clang -cc1 version 12.0.0 (clang-1200.0.32.29) default target x86_64-apple-darwin19.6.0
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/local/include"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/Library/Frameworks"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks (framework directory)
+End of search list.
+/Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp:2:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_e7af2.dir/OpenMPTryFlag.cpp.o] Error 1
+make: *** [cmTC_e7af2/fast] Error 2
+
+
+
+Determining if the mallinfo exist failed with the following output:
+Change Dir: /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_0a490/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_0a490.dir/build.make CMakeFiles/cmTC_0a490.dir/build
+Building C object CMakeFiles/cmTC_0a490.dir/CheckSymbolExists.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -MD -MT CMakeFiles/cmTC_0a490.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_0a490.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_0a490.dir/CheckSymbolExists.c.o -c /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:2:10: fatal error: 'malloc.h' file not found
+#include <malloc.h>
+         ^~~~~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_0a490.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_0a490/fast] Error 2
+
+
+File /Users/mattadmin/FIMS-Testing/FIMS_statistical_computing_investigations/include/stxxl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <malloc.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef mallinfo
+  return ((int*)(&mallinfo))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}

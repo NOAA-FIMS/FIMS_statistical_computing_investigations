@@ -12,7 +12,8 @@ public:
 
     Variable median;
     Variable slope;
-    std::vector<T> x = {0.1,2,3,4,5,6,7,8,9,10};
+    Variable X;
+//    std::vector<Variable> x = {0.1,2,3,4,5,6,7,8,9,10};
 
     Logistic_1() {
 
@@ -22,9 +23,18 @@ public:
         this->name = "logistic";
         this->description = "Functional analysis of the logistic function.";
         this->median.SetName("median");
-        this->parameters.push_back(&(this->median));
+        
+        this->median.SetBounds(0.4, 0.5);
+        this->RegisterParameter(median);
+        
         this->slope.SetName("slope");
-        this->parameters.push_back(&(this->slope));
+        this->slope.SetBounds(0.5, 0.7);
+        this->RegisterParameter(slope);
+        
+        this->X.SetName("x");   
+        this->X.SetBounds(1,10);
+        this->RegisterParameter(X,1.0);
+        
 
     }
 
@@ -37,9 +47,9 @@ public:
      */
     virtual Variable Evaluate() {
         Variable ret;
-        for(int i = 0; i < this->x.size(); i++){
-        ret += (1.0) / (1.0 + atl::exp(-1.0 * slope * (x[i] - median)));
-        }
+
+        ret = (1.0) / (1.0 + atl::exp(-1.0 * slope * (X - median)));
+        
         return ret;
     }
 
