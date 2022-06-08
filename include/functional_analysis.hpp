@@ -5,7 +5,7 @@
 #include <limits>
 #include <chrono>
 #include <complex>
-#include <stxxl.h>
+//#include <stxxl.h>
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
 #define PBWIDTH 60
@@ -49,10 +49,10 @@ public:
     std::vector<std::vector<T> > parameter_sets;
 
     //function values from each evaluation
-    stxxl::vector<T> values;
+    std::vector<T> values;
 
     //derivatives from each evaluation
-    std::map<uint32_t, stxxl::vector<T> > derivatives;
+    std::map<uint32_t, std::vector<T> > derivatives;
 
 
 
@@ -218,7 +218,7 @@ public:
         std::cout << "done.\nComputing Stochasticity..." << std::flush;
 
         //quantify smoothness
-        stxxl::vector<T> diff = Diff(this->values);
+        std::vector<T> diff = Diff(this->values);
         this->stochasticity = StandardDeviation(diff) / std::fabs(Mean(diff));
 
         double progress_2 = 0;
@@ -232,9 +232,9 @@ public:
 //            }
             for (int j = 0; j < this->parameters.size(); j++) {
 
-                stxxl::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
+                std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
 
-                stxxl::vector<T> diff = Diff(derivatives);
+                std::vector<T> diff = Diff(derivatives);
                 this->stochasticity_of_derivatives[this->parameters[j]->info->id] =
                         StandardDeviation(diff) / std::fabs(Mean(diff));
 
@@ -395,18 +395,18 @@ public:
         return difference;
     }
 
-    const stxxl::vector<T> Diff(const stxxl::vector<T>& v, int lag = 1) {
-
-        stxxl::vector<T> difference;
-
-        for (int i = lag; i < v.size(); i += lag) {
-            if (i < v.size() - 1) {
-                difference.push_back(v[i - lag] - v[lag]);
-            }
-        }
-
-        return difference;
-    }
+//    const stxxl::vector<T> Diff(const stxxl::vector<T>& v, int lag = 1) {
+//
+//        stxxl::vector<T> difference;
+//
+//        for (int i = lag; i < v.size(); i += lag) {
+//            if (i < v.size() - 1) {
+//                difference.push_back(v[i - lag] - v[lag]);
+//            }
+//        }
+//
+//        return difference;
+//    }
 
     T Mean(const std::vector<T>& v) {
         T sum = std::accumulate(v.begin(), v.end(), 0.0);
@@ -414,13 +414,13 @@ public:
 
         return mean;
     }
-
-    T Mean(const stxxl::vector<T>& v) {
-        T sum = std::accumulate(v.begin(), v.end(), 0.0);
-        T mean = sum / v.size();
-
-        return mean;
-    }
+//
+//    T Mean(const stxxl::vector<T>& v) {
+//        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+//        T mean = sum / v.size();
+//
+//        return mean;
+//    }
 
     T StandardDeviation(const std::vector<T>& v) {
         T sum = std::accumulate(v.begin(), v.end(), 0.0);
@@ -432,15 +432,15 @@ public:
         return stdev;
     }
 
-    T StandardDeviation(const stxxl::vector<T>& v) {
-        T sum = std::accumulate(v.begin(), v.end(), 0.0);
-        T mean = sum / v.size();
-
-        T sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
-        T stdev = std::sqrt(sq_sum / v.size() - mean * mean);
-
-        return stdev;
-    }
+//    T StandardDeviation(const stxxl::vector<T>& v) {
+//        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+//        T mean = sum / v.size();
+//
+//        T sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+//        T stdev = std::sqrt(sq_sum / v.size() - mean * mean);
+//
+//        return stdev;
+//    }
 
     T StandardDeviation(const std::vector<T>& v, const T& mean) {
         T sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
