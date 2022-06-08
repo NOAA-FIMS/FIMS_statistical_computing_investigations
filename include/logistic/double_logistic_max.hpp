@@ -28,21 +28,21 @@ public:
 
         this->median_asc.SetName("median_asc");
         this->median_asc.SetBounds(1.0, 5.0);
-        this->RegisterParameter(this->median_asc);
+        this->RegisterParameter(this->median_asc, 0.5);
 
         this->slope_asc.SetName("slope_asc");
         this->slope_asc.SetBounds(0.1,0.3);
-        this->RegisterParameter(this->slope_asc);
+        this->RegisterParameter(this->slope_asc, 0.01);
 
 
         this->median_desc.SetName("median_desc");
         this->median_desc.SetBounds(5.0, 10.0);
-        this->RegisterParameter(this->median_desc);
+        this->RegisterParameter(this->median_desc, 0.5);
 
 
         this->slope_desc.SetName("slope_desc");
         this->slope_desc.SetBounds(0.1,0.3);
-        this->RegisterParameter(this->slope_desc);
+        this->RegisterParameter(this->slope_desc, 0.01);
 
         this->X.SetBounds(1, 10);
         this->RegisterParameter(this->X, 1.0);
