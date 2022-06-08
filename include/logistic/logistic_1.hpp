@@ -24,8 +24,8 @@ public:
         this->description = "Functional analysis of the logistic function.";
         this->median.SetName("median");
         this->median = 0.4;
-        this->median.SetBounds(0.4, 0.5);
-        this->RegisterParameter(median);
+        this->median.SetBounds(3.0, 7.0);
+        this->RegisterParameter(median, 0.001);
         
         
         this->slope.SetName("slope");

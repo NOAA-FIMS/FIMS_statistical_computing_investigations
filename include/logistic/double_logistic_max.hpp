@@ -18,7 +18,7 @@ public:
     Variable X;
     std::vector<T> x = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    DoubleLogistic() {
+    DoubleLogisticMax() {
 
     }
 
@@ -27,17 +27,21 @@ public:
         this->description = "Functional analysis of the double logistic function.";
 
         this->median_asc.SetName("median_asc");
+        this->median_asc.SetBounds(1.0, 5.0);
         this->RegisterParameter(this->median_asc);
 
         this->slope_asc.SetName("slope_asc");
+        this->slope_asc.SetBounds(0.1,0.3);
         this->RegisterParameter(this->slope_asc);
 
 
         this->median_desc.SetName("median_desc");
+        this->median_desc.SetBounds(5.0, 10.0);
         this->RegisterParameter(this->median_desc);
 
 
         this->slope_desc.SetName("slope_desc");
+        this->slope_desc.SetBounds(0.1,0.3);
         this->RegisterParameter(this->slope_desc);
 
         this->X.SetBounds(1, 10);
@@ -54,7 +58,7 @@ public:
         for (int i = 0; i < n; i++) {
             temp = (1.0) / (1.0 + exp(-1.0 * slope_asc * (x[i] - median_asc))) *
                     (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (x[i] - median_desc))));
-            max_ = atl::ad_max(temp, max_)
+            max_ = atl::ad_max(temp, max_);
         }
     }
 
@@ -80,8 +84,8 @@ public:
     virtual Variable Evaluate() {
         updateMax();
         Variable ret;
-        ret = (1.0) / (1.0 + exp(-1.0 * slope_asc * (x - median_asc))) *
-                (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (x - median_desc))));
+        ret = (1.0) / (1.0 + exp(-1.0 * slope_asc * (X - median_asc))) *
+                (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (X - median_desc))));
         ret = ret / max_;
         return ret;
     }
