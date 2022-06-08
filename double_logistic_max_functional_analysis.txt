@@ -2,14 +2,14 @@ Name: double_logistic_max
 Description:
 Functional analysis of the double logistic function.
 
-Run time(seconds): 55
+Run time(seconds): 51
 Number of parameter sets: 396000
 Parameter Range: 
-median_asc     1        -  5
-slope_asc      0.1      -  0.3
-median_desc    5        -  10
-slope_desc     0.1      -  0.3
-X              1        -  10
+median_asc     1     -   5   
+slope_asc      0.1   -   0.3 
+median_desc    5     -   10  
+slope_desc     0.1   -   0.3 
+X              1     -   10  
 Infinitesimal Step: 
 median_asc	0.5
 slope_asc	0.01

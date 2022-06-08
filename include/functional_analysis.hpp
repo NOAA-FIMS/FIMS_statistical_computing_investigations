@@ -278,7 +278,9 @@ public:
         out << "Number of parameter sets: " << parameter_sets.size() << "\n";
         out << "Parameter Range: \n";
         for (int i = 0; i < this->parameters.size(); i++) {
-            out << std::setw(15)<<std::left << this->parameters[i]->GetName()  << std::setw(7) <<std::left << this->parameters[i]->GetMinBoundary() << "  -  " << this->parameters[i]->GetMaxBoundary() << "\n";
+            out << std::setw(15) << std::left << this->parameters[i]->GetName() << 
+                    std::setw(4) << std::left << this->parameters[i]->GetMinBoundary() << "  -   " 
+                    << std::setw(4) << std::left << this->parameters[i]->GetMaxBoundary() << "\n";
         }
         out << "Infinitesimal Step: \n";
 
