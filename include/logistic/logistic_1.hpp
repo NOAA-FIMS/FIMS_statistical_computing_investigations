@@ -23,12 +23,14 @@ public:
         this->name = "logistic";
         this->description = "Functional analysis of the logistic function.";
         this->median.SetName("median");
-        
-        this->median.SetBounds(0.4, 0.5);
+        this->median = 0.4;
+        this->median.SetBounds(0.3, 0.7);
         this->RegisterParameter(median);
         
+        
         this->slope.SetName("slope");
-        this->slope.SetBounds(0.5, 0.7);
+        this->slope=0.5;
+        this->slope.SetBounds(0.1, 0.9);
         this->RegisterParameter(slope);
         
         this->X.SetName("x");   

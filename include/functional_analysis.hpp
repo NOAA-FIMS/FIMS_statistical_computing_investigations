@@ -223,13 +223,13 @@ public:
 
         double progress_2 = 0;
         //quantify derivative smoothness and continuity
-        for (int i = 0; i < this->values.size(); i++) {
-            progress_2 = ((double) i / (double) this->values.size())*.5;
-
-            if ((i % 10) == 0) {
-                //show progress
-                this->Progress(progress + progress_2);
-            }
+//        for (int i = 0; i < this->values.size(); i++) {
+//            progress_2 = ((double) i / (double) this->values.size())*.5;
+//
+//            if ((i % 10) == 0) {
+//                //show progress
+//                this->Progress(progress + progress_2);
+//            }
             for (int j = 0; j < this->parameters.size(); j++) {
 
                 stxxl::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
@@ -241,19 +241,19 @@ public:
                 for (int k = 0; k < derivatives.size(); k++) {
                     if (derivatives[k] != derivatives[k]) {//NaN
                         this->is_continuous = false;
-                        this->discontinuity_sets.push_back(this->parameter_sets[i]);
+                        this->discontinuity_sets.push_back(this->parameter_sets[k]);
                     }
                 }
             }
-        }
-        std::cout << "done.Computing Covariance..."<<std::flush;
+//        }
+        std::cout << "done.\nComputing Covariance..."<<std::flush;
 
         //covariance
         this->lower_bound_covariance = this->CovarianceMatrix(this->parameter_sets[0]);
         this->central_bound_covariance = this->CovarianceMatrix(this->parameter_sets[static_cast<size_t> (this->parameter_sets.size() / 2.0)]);
         this->upper_bound_covariance = this->CovarianceMatrix(this->parameter_sets[static_cast<size_t> (this->parameter_sets.size() - 1)]);
 
-        std::cout << "done.Computing Correlation..."<<std::flush;
+        std::cout << "done.\nComputing Correlation..."<<std::flush;
         //correlations
         this->lower_bound_correlation = this->CorrelationMatrix(this->lower_bound_covariance);
         this->central_bound_correlation = this->CorrelationMatrix(this->central_bound_covariance);
