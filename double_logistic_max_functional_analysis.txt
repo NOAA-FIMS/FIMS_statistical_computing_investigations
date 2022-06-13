@@ -2,8 +2,8 @@ Name: double_logistic_max
 Description:
 Functional analysis of the double logistic function.
 
-Run time(seconds): 51
-Number of parameter sets: 396000
+Run time(seconds): 1107
+Number of parameter sets: 8364000
 Parameter Range: 
 median_asc     1     -   5   
 slope_asc      0.1   -   0.3 
@@ -11,18 +11,18 @@ median_desc    5     -   10
 slope_desc     0.1   -   0.3 
 X              1     -   10  
 Infinitesimal Step: 
-median_asc	0.5
+median_asc	0.1
 slope_asc	0.01
-median_desc	0.5
+median_desc	0.1
 slope_desc	0.01
 X	1
 Continuous: 1
 Function Stochasticity: 1.29782
-Derivative Stochasticity of "median_asc": 0.729733
-Derivative Stochasticity of "slope_asc": 0.566351
-Derivative Stochasticity of "median_desc": 1.07364
-Derivative Stochasticity of "slope_desc": 1.16841
-Derivative Stochasticity of "X": 0.747296
+Derivative Stochasticity of "median_asc": 0.72973
+Derivative Stochasticity of "slope_asc": 0.566349
+Derivative Stochasticity of "median_desc": 1.07363
+Derivative Stochasticity of "slope_desc": 1.1684
+Derivative Stochasticity of "X": 0.747294
 
 Covariance:
 lower bounds:

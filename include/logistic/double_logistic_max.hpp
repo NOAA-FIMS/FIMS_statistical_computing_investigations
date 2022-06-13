@@ -28,7 +28,7 @@ public:
 
         this->median_asc.SetName("median_asc");
         this->median_asc.SetBounds(1.0, 5.0);
-        this->RegisterParameter(this->median_asc, 0.5);
+        this->RegisterParameter(this->median_asc, 0.1);
 
         this->slope_asc.SetName("slope_asc");
         this->slope_asc.SetBounds(0.1,0.3);
@@ -37,7 +37,7 @@ public:
 
         this->median_desc.SetName("median_desc");
         this->median_desc.SetBounds(5.0, 10.0);
-        this->RegisterParameter(this->median_desc, 0.5);
+        this->RegisterParameter(this->median_desc, 0.1);
 
 
         this->slope_desc.SetName("slope_desc");
