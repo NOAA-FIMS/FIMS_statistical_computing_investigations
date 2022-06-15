@@ -36,9 +36,9 @@ public:
 
 
         this->invslope.SetName("inverse_slope");
-        this->invslope = 0.5;
-        this->invslope.SetBounds(0.5, 0.7);
-        this->RegisterParameter(invslope);
+//        this->invslope = 0.5;
+        this->invslope.SetBounds(8.0, 10.0);
+        this->RegisterParameter(invslope, 0.001);
 
         this->X.SetName("x");
         this->X.SetBounds(1, 10);

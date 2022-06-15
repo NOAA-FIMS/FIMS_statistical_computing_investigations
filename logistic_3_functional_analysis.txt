@@ -1,0 +1,52 @@
+Name: logistic_3
+Description:
+Functional analysis of the logistic function.
+
+Run time(seconds): 90
+Number of parameter sets: 80040000
+Parameter Range: 
+median         3     -   7   
+inverse_slope  8     -   10  
+x              1     -   10  
+Infinitesimal Step: 
+median	0.001
+inverse_slope	0.001
+x	1
+Continuous: 1
+Function Stochasticity: 1.13423
+Derivative Stochasticity of "median": 0.957469
+Derivative Stochasticity of "inverse_slope": 0.799637
+Derivative Stochasticity of "x": 0.957469
+
+Covariance:
+lower bounds:
+nan    nan    nan    
+0.000000e+00    0.000000e+00    nan    
+nan    nan    nan    
+
+central bounds:
+nan    nan    nan    
+nan    nan    nan    
+nan    nan    nan    
+
+upper bounds:
+nan    nan    nan    
+nan    nan    nan    
+nan    nan    nan    
+
+
+Correlation:
+lower bounds:
+nan    nan    nan    
+nan    nan    nan    
+nan    nan    nan    
+
+central bounds:
+nan    nan    nan    
+nan    nan    nan    
+nan    nan    nan    
+
+upper bounds:
+nan    nan    nan    
+nan    nan    nan    
+nan    nan    nan    

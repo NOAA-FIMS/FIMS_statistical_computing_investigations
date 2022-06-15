@@ -1,0 +1,52 @@
+Name: logistic
+Description:
+Functional analysis of the logistic function.
+
+Run time(seconds): 6
+Number of parameter sets: 8000000
+Parameter Range: 
+median         3     -   7   
+slope          0.5   -   0.7 
+x              1     -   10  
+Infinitesimal Step: 
+median	0.001
+slope	0.001
+x	1
+Continuous: 1
+Function Stochasticity: 1.03432
+Derivative Stochasticity of "median": 108.659
+Derivative Stochasticity of "slope": 0.559203
+Derivative Stochasticity of "x": 108.659
+
+Covariance:
+lower bounds:
+-1.441152e+17    5.755748e-01    -1.441152e+17    
+5.755748e-01    1.380236e+00    5.520945e+00    
+-1.441152e+17    5.520945e+00    -1.441152e+17    
+
+central bounds:
+-1.441152e+17    5.755748e-01    -1.441152e+17    
+5.755748e-01    1.380236e+00    5.520945e+00    
+-1.441152e+17    5.520945e+00    -1.441152e+17    
+
+upper bounds:
+1.142824e+31    -7.205759e+16    1.142824e+31    
+-7.205759e+16    0.000000e+00    -7.205759e+16    
+1.142824e+31    -7.205759e+16    1.142824e+31    
+
+
+Correlation:
+lower bounds:
+-6.938894e-18    -2.893601e-18    -6.938894e-18    
+-2.893601e-18    7.245137e-01    -2.775558e-17    
+-6.938894e-18    -2.775558e-17    -6.938894e-18    
+
+central bounds:
+-6.938894e-18    -2.893601e-18    -6.938894e-18    
+-2.893601e-18    7.245137e-01    -2.775558e-17    
+-6.938894e-18    -2.775558e-17    -6.938894e-18    
+
+upper bounds:
+8.750250e-32    -inf    8.750250e-32    
+-inf    nan    -inf    
+8.750250e-32    -inf    8.750250e-32    
