@@ -84,11 +84,12 @@ public:
      */
     virtual Variable Evaluate() {
         updateMax();
-        Variable ret;
-        ret = (1.0) / (1.0 + exp(-1.0 * slope_asc * (X - median_asc))) *
-                (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (X - median_desc))));
-        ret = ret / max_;
-        return ret;
+//        Variable ret;
+//        ret = (1.0) / (1.0 + exp(-1.0 * slope_asc * (X - median_asc))) *
+//                (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (X - median_desc))));
+//        ret = ret / max_;
+        return ((1.0) / (1.0 + exp(-1.0 * slope_asc * (X - median_asc))) *
+                (1.0 - (1.0) / (1.0 + exp(-1.0 * slope_desc * (X - median_desc)))))/max_;
     }
 
 

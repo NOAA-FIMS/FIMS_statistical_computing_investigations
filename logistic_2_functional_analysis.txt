@@ -1,0 +1,52 @@
+Name: logistic_2
+Description:
+Functional analysis of the logistic function.
+
+Run time(seconds): 8
+Number of parameter sets: 8000000
+Parameter Range: 
+median         3     -   7   
+inverse_slope  0.5   -   0.7 
+x              1     -   10  
+Infinitesimal Step: 
+median	0.001
+inverse_slope	0.001
+x	1
+Continuous: 1
+Function Stochasticity: 0.803519
+Derivative Stochasticity of "median": 1.23453
+Derivative Stochasticity of "inverse_slope": 1.79379
+Derivative Stochasticity of "x": 1.23453
+
+Covariance:
+lower bounds:
+-1.441152e+17    -4.346058e-01    -1.441152e+17    
+-4.346058e-01    1.042191e+00    -4.168762e+00    
+-1.441152e+17    -4.168762e+00    -1.441152e+17    
+
+central bounds:
+-1.441152e+17    -4.346058e-01    -1.441152e+17    
+-4.346058e-01    1.042191e+00    -4.168762e+00    
+-1.441152e+17    -4.168762e+00    -1.441152e+17    
+
+upper bounds:
+-1.475740e+20    3.999094e+02    -1.475740e+20    
+1.457120e+01    6.020909e+00    -3.853382e+02    
+-1.475740e+20    -0.000000e+00    -1.475740e+20    
+
+
+Correlation:
+lower bounds:
+-6.938894e-18    2.893601e-18    -6.938894e-18    
+2.893601e-18    9.595174e-01    2.775558e-17    
+-6.938894e-18    2.775558e-17    -6.938894e-18    
+
+central bounds:
+-6.938894e-18    2.893601e-18    -6.938894e-18    
+2.893601e-18    9.595174e-01    2.775558e-17    
+-6.938894e-18    2.775558e-17    -6.938894e-18    
+
+upper bounds:
+-6.776264e-21    -4.500801e-19    -6.776264e-21    
+-1.639923e-20    1.660879e-01    4.336809e-19    
+-6.776264e-21    0.000000e+00    -6.776264e-21    

@@ -57,7 +57,7 @@ namespace atl {
             lock.lock();
 #endif
             uint32_t ret;
-            if (!available.empty() > 0) {
+            if (!available.empty()) {
                 ret = available.top();
                 available.pop();
 

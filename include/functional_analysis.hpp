@@ -109,6 +109,14 @@ public:
     FunctionalAnalysis() {
 
     }
+    
+    void ClearData(){
+        this->values.clear();
+        this->parameter_sets.clear();
+        this->derivatives.clear();
+        this->correlation.clear();
+        this->covariance.clear();
+    }
 
     /**
      * Initialize parameter set. Must be overloaded.
@@ -317,7 +325,9 @@ public:
         out.close();
         this->Progress(1.0);
         std::cout << "\n";
-
+        
+        
+        this->ClearData();
     }
 
     //private:

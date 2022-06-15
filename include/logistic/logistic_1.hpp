@@ -48,11 +48,11 @@ public:
      * @return
      */
     virtual Variable Evaluate() {
-        Variable ret;
-
-        ret = (1.0) / (1.0 + atl::exp(-1.0 * slope * (X - median)));
-        
-        return ret;
+//        Variable ret;
+//
+//        ret = (1.0) / (1.0 + atl::exp(-1.0 * slope * (X - median)));
+//        
+        return (1.0) / (1.0 + atl::exp(-1.0 * slope * (X - median)));
     }
 
 
