@@ -109,8 +109,8 @@ public:
     FunctionalAnalysis() {
 
     }
-    
-    void ClearData(){
+
+    void ClearData() {
         this->values.clear();
         this->parameter_sets.clear();
         this->derivatives.clear();
@@ -160,7 +160,15 @@ public:
         std::vector<T> working(this->parameters.size());
         int count = 0;
         int current = 0;
-        this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
+
+        if (this->parameters.size()  > 1) {
+            this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
+        } else {
+            parameter_sets.resize(input_values[0].size());
+            for (int i = 0; i < input_values[0].size(); i++) {
+                this->parameter_sets[i].push_back(input_values[0][i]);
+            }
+        }
         std::cout << "done.\n";
         //        std::cout << "Infinitesimal Step: " << this->delta << "\n";
         std::cout << "Number of parameter sets: " << parameter_sets.size() << "\n";
@@ -286,8 +294,8 @@ public:
         out << "Number of parameter sets: " << parameter_sets.size() << "\n";
         out << "Parameter Range: \n";
         for (int i = 0; i < this->parameters.size(); i++) {
-            out << std::setw(15) << std::left << this->parameters[i]->GetName() << 
-                    std::setw(4) << std::left << this->parameters[i]->GetMinBoundary() << "  -   " 
+            out << std::setw(15) << std::left << this->parameters[i]->GetName() <<
+                    std::setw(4) << std::left << this->parameters[i]->GetMinBoundary() << "  -   "
                     << std::setw(4) << std::left << this->parameters[i]->GetMaxBoundary() << "\n";
         }
         out << "Infinitesimal Step: \n";
@@ -325,12 +333,40 @@ public:
         out.close();
         this->Progress(1.0);
         std::cout << "\n";
-        
-        
+        //        this->WriteDerivatives();
         this->ClearData();
     }
 
-    //private:
+    void WriteDerivatives() {
+        std::ofstream out;
+        std::stringstream ss;
+        ss << this->name << "_derivatives.csv";
+        out.open(ss.str().c_str());
+
+
+        for (int i = 0; i < this->parameters.size(); i++) {
+
+            if (i == this->parameters.size() - 1) {
+                out << this->parameters[i]->GetName() << "\n";
+            } else {
+                out << this->parameters[i]->GetName() << ", ";
+            }
+        }
+
+
+        for (int i = 0; i < this->values.size(); i++) {
+            for (int j = 0; j < this->parameters.size(); j++) {
+                std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
+                if (j == this->parameters.size() - 1) {
+                    out << derivatives[i] << "\n";
+                } else {
+                    out << derivatives[i] << ", ";
+                }
+
+            }
+        }
+        out.close();
+    }
 
     /**
      * Creates parameter sets based on combination of 

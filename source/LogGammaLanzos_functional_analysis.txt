@@ -1,0 +1,34 @@
+Name: LogGammaLanzos
+Description:
+Functional analysis of the log gamma series function using Stirling's approximation.
+
+Run time(seconds): 0
+Number of parameter sets: 2000
+Parameter Range: 
+x              0.001  -   10  
+Infinitesimal Step: 
+x	0.005
+Continuous: 1
+Function Stochasticity: 0.414421
+Derivative Stochasticity of "x": 0.788795
+
+Covariance:
+lower bounds:
+7.451632e-09    
+
+central bounds:
+4.519280e+00    
+
+upper bounds:
+9.504750e+00    
+
+
+Correlation:
+lower bounds:
+1.341988e+08    
+
+central bounds:
+2.212742e-01    
+
+upper bounds:
+1.052106e-01    

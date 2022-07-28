@@ -1,0 +1,34 @@
+Name: LogGammaSeries
+Description:
+Functional analysis of the log gamma series function using Stirling's approximation.
+
+Run time(seconds): 0
+Number of parameter sets: 2000
+Parameter Range: 
+x              0.001  -   10  
+Infinitesimal Step: 
+x	0.005
+Continuous: 1
+Function Stochasticity: 45.0089
+Derivative Stochasticity of "x": 44.741
+
+Covariance:
+lower bounds:
+-4.000003e-26    
+
+central bounds:
+4.546552e+00    
+
+upper bounds:
+9.519834e+00    
+
+
+Correlation:
+lower bounds:
+-2.499998e+25    
+
+central bounds:
+2.199469e-01    
+
+upper bounds:
+1.050439e-01    
