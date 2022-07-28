@@ -9,6 +9,22 @@
 #include "../include/ATL/ATL.hpp"
 
 int main(int argc, char** argv) {
+    bool write_values = false;
+    bool write_derivatives = false;
+    std::vector<std::string> args;
+
+    for (int i = 1; i < argc; ++i)
+        args.push_back(std::string(argv[i]));
+
+    for (int i = 0; i < args.size(); i++) {
+        if (args[i] == "-write_values") {
+            write_values = true;
+        }
+
+        if (args[i] == "-write_derivatives") {
+            write_derivatives = true;
+        }
+    }
 
     //    Logistic_1<double > logistic1;
     //    logistic1.Initialize();
@@ -36,11 +52,23 @@ int main(int argc, char** argv) {
     //    double_logistic_max.Finalize();
 
     LogGammaLanzos<double> lgamma_lanczos;
+    if (write_values) {
+        lgamma_lanczos.write_values = true;
+    }
+    if (write_derivatives) {
+        lgamma_lanczos.write_derivatives = true;
+    }
     lgamma_lanczos.Initialize();
     lgamma_lanczos.Analyze();
     lgamma_lanczos.Finalize();
 
     LogGammaSeries<double> lgamma_series;
+    if (write_values) {
+        lgamma_series.write_values = true;
+    }
+    if (write_derivatives) {
+        lgamma_series.write_derivatives = true;
+    }
     lgamma_series.Initialize();
     lgamma_series.Analyze();
     lgamma_series.Finalize();

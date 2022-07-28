@@ -106,6 +106,9 @@ public:
 
     std::vector<T> mean_parameter_values;
 
+    bool write_values = false;
+    bool write_derivatives = false;
+
     FunctionalAnalysis() {
 
     }
@@ -161,7 +164,7 @@ public:
         int count = 0;
         int current = 0;
 
-        if (this->parameters.size()  > 1) {
+        if (this->parameters.size() > 1) {
             this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
         } else {
             parameter_sets.resize(input_values[0].size());
@@ -333,8 +336,26 @@ public:
         out.close();
         this->Progress(1.0);
         std::cout << "\n";
-        //        this->WriteDerivatives();
+        if (this->write_derivatives) {
+            this->WriteDerivatives();
+        }
+        
+        if(this->write_values){
+            this->WriteValues();
+        }
+        
         this->ClearData();
+    }
+
+    void WriteValues() {
+        std::ofstream out;
+        std::stringstream ss;
+        ss << this->name << "_values.csv";
+        out.open(ss.str().c_str());
+        for (int i = 0; i < this->values.size() - 1; i++) {
+            out << this->values[i] << ", ";
+        }
+        out << this->values[this->values.size() - 1];
     }
 
     void WriteDerivatives() {
