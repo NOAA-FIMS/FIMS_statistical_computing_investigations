@@ -25,7 +25,7 @@ public:
 
         this->X.SetName("x");
         this->X.SetBounds(.001, 10);
-        this->RegisterParameter(X, 0.005);
+        this->RegisterParameter(X, 0.0005);
 
 
     }
