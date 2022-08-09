@@ -173,3 +173,6 @@ apply(sig.out, 2, function(x) sum(is.na(x)))
 hist(iter.out[,1]); mean(iter.out[,1])
 #number of iterations for parameter transformation
 hist(iter.out[,2]); mean(iter.out[,2])
+plot(iter.out[,1], iter.out[,2], xlab = "No. iterations, constrained optimization",
+     ylab = "No. iterations, parameter transformation", pch=16)
+abline(0,1, col = "red")
