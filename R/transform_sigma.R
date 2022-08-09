@@ -28,7 +28,7 @@ opt <- nlminb(obj$par, obj$fn, obj$gr,
               control = list(trace = 1))
 opt$par 
 sdr1 <- sdreport(obj)
-summary(sdr1, "report")
+summary(sdr1, "fixed")[3,]
 
 #Fit using parameter transformation
 Data$transform = 1
@@ -41,8 +41,8 @@ opt <- nlminb(obj$par, obj$fn, obj$gr,
 opt$par
 sdr2 <- sdreport(obj)
 #similar output
-summary(sdr2, "report")
-summary(sdr1, "report")
+summary(sdr2, "report") #se calc using delta method
+summary(sdr1, "fixed")[3,]
 
 #repeat using small sig
 y <- sim.dat(sig = 0.001, n = 100, seed = 123)
@@ -61,7 +61,7 @@ opt <- nlminb(obj$par, obj$fn, obj$gr,
               control = list(trace = 1))
 opt$par 
 sdr1 <- sdreport(obj)
-summary(sdr1, "report")
+summary(sdr1, "fixed")[3,]
 
 #Fit using parameter transformation
 Data$transform = 1
@@ -77,11 +77,11 @@ sdr2 <- sdreport(obj)
 summary(sdr2, "report")
 summary(sdr1, "report")
 
-#Run simulation study
+#Run simulation study for sig = 1
 n.sim <- 1000
 sig.out <- matrix(0, n.sim, 4)
 iter.out <- matrix(0, n.sim, 2)
-sig.sim <- 0.001
+sig.sim <- 1
 for(i in 1:n.sim){
   #repeat using small sig
   y <- sim.dat(sig = sig.sim, n = 100)
@@ -116,10 +116,60 @@ for(i in 1:n.sim){
   iter.out[i,2] <- opt$iterations
   print(i)
 }
+#const, const, trans, trans
+#mean, se, mean, se
+apply(sig.out, 2, mean)
+#number of iterations for constrained optimization
+hist(iter.out[,1]); mean(iter.out[,1])
+#number of iterations for parameter transformation
+hist(iter.out[,2]); mean(iter.out[,2])
+
+#Run simulation study for sig = 0.001
+n.sim <- 1000
+sig.out <- matrix(0, n.sim, 4)
+iter.out <- matrix(0, n.sim, 2)
+sig.sim <- 0.001
+for(i in 1:n.sim){
+  #repeat using small sig
+  y <- sim.dat(sig = sig.sim, n = 100)
+  
+  #Fit using constrained optimization
+  Data <- list(y = y, 
+               X = cbind(rep(1,n), 1:n),
+               transform = 0)
+  Pars <- list(beta = c(0,0), theta = 1)
+  obj <- MakeADFun(data = Data, 
+                   parameters = Pars, 
+                   DLL = "transform_sigma",
+                   silent = TRUE)
+  opt <- nlminb(obj$par, obj$fn, obj$gr, 
+                lower = c(-Inf, -Inf, 0.0001),
+                upper = c(Inf, Inf, Inf))
+  
+  sdr1 <- sdreport(obj)
+  sig.out[i, 1:2] <- summary(sdr1, "report")
+  iter.out[i,1] <- opt$iterations
+  
+  #Fit using parameter transformation
+  Data$transform = 1
+  Pars$theta = 0
+  obj <- MakeADFun(data = Data, 
+                   parameters = Pars, 
+                   DLL = "transform_sigma",
+                   silent = TRUE)
+  opt <- nlminb(obj$par, obj$fn, obj$gr)
+  sdr2 <- sdreport(obj)
+  sig.out[i, 3:4] <- summary(sdr2, "report")
+  iter.out[i,2] <- opt$iterations
+  print(i)
+}
+
+#const, const, trans, trans
+#mean, se, mean, se
 apply(sig.out, 2, mean, na.rm = TRUE)
 #around half constrained optimization result in NA SE for sig
 apply(sig.out, 2, function(x) sum(is.na(x)))
 #number of iterations for constrained optimization
-hist(iter.out[,1])
+hist(iter.out[,1]); mean(iter.out[,1])
 #number of iterations for parameter transformation
-hist(iter.out[,2])
+hist(iter.out[,2]); mean(iter.out[,2])
