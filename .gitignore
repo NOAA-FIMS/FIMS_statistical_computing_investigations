@@ -5,4 +5,4 @@
 *.dll
 *.so
 *.o
-.exe
+*.exe
