@@ -83,8 +83,7 @@ public:
 };
 
 /*
- *   gradient[i] = this->objective_function_m->random_variables_m[i]->GetScaledGradient(
-                        this->objective_function_m->random_variables_m[i]->GetInternalValue()) * g;
+ *   
  */
 int main(int argc, char** argv) {
 
