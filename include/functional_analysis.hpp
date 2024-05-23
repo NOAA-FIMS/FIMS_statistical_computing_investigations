@@ -322,7 +322,12 @@ public:
         out << "Function Stochasticity: " << stochasticity << "\n";
 
         for (int i = 0; i < this->parameters.size(); i++) {
-            std::pair<T, T> temp = this->FindMinMax(this->derivatives[this->parameters[i]->info->id]);
+            std::vector<T>& dx = this->derivatives[this->parameters[i]->info->id];
+
+            std::pair<T, T> temp;
+            temp.first = *std::min_element(std::begin(dx), std::end(dx));
+            temp.second = *std::max_element(std::begin(dx), std::end(dx));
+            
             out << "Derivative Stochasticity of \"" << this->parameters[i]->GetName()
                     << "\": " << stochasticity_of_derivatives[this->parameters[i]->info->id] << ",\t[ " << temp.first << " : " << temp.second << " ]\n";
         }
