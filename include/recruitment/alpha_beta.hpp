@@ -41,7 +41,7 @@ public:
         
         this->S.SetName("S");
         this->S.SetBounds(6000.0, 10000.0);
-        this->RegisterParameter(this->S, 500);
+        this->RegisterParameter(this->S, 1000);
         
     }
     

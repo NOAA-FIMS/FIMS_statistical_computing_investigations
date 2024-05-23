@@ -318,7 +318,12 @@ public:
         for (int i = 0; i < this->parameters.size(); i++) {
             out << this->parameters[i]->GetName() << "\t" << this->deltas[i] << "\n";
         }
-        out << "Continuous: " << this->is_continuous << "\n";
+        std::string tf = "TRUE";
+        if(!this->is_continuous){
+            tf = "FALSE";
+        }
+        
+        out << "Function is Continuous: " << tf << "\n";
         out << "Function Stochasticity: " << stochasticity << "\n";
 
         for (int i = 0; i < this->parameters.size(); i++) {
