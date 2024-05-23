@@ -6,6 +6,7 @@
 #include "../include/logistic/double_logistic_max.hpp"
 #include "../include/lgamma/LogGammaLanczos.hpp"
 #include "../include/lgamma/LogGammaSeries.hpp"
+#include "../include/recruitment/alpha_beta.hpp"
 #include "../include/ATL/ATL.hpp"
 
 int main(int argc, char** argv) {
@@ -51,27 +52,27 @@ int main(int argc, char** argv) {
     //    double_logistic_max.Analyze();
     //    double_logistic_max.Finalize();
 
-    LogGammaLanzos<double> lgamma_lanczos;
+    BevertonHoltAlphaBeta<double> bh_alpha_beta;
     if (write_values) {
-        lgamma_lanczos.write_values = true;
+        bh_alpha_beta.write_values = true;
     }
     if (write_derivatives) {
-        lgamma_lanczos.write_derivatives = true;
+        bh_alpha_beta.write_derivatives = true;
     }
-    lgamma_lanczos.Initialize();
-    lgamma_lanczos.Analyze();
-    lgamma_lanczos.Finalize();
-
-    LogGammaSeries<double> lgamma_series;
-    if (write_values) {
-        lgamma_series.write_values = true;
-    }
-    if (write_derivatives) {
-        lgamma_series.write_derivatives = true;
-    }
-    lgamma_series.Initialize();
-    lgamma_series.Analyze();
-    lgamma_series.Finalize();
+    bh_alpha_beta.Initialize();
+    bh_alpha_beta.Analyze();
+    bh_alpha_beta.Finalize();
+//
+//    LogGammaSeries<double> lgamma_series;
+//    if (write_values) {
+//        lgamma_series.write_values = true;
+//    }
+//    if (write_derivatives) {
+//        lgamma_series.write_derivatives = true;
+//    }
+//    lgamma_series.Initialize();
+//    lgamma_series.Analyze();
+//    lgamma_series.Finalize();
 
     return 0;
 }

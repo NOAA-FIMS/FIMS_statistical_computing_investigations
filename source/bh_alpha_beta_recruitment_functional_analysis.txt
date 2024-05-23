@@ -1,0 +1,43 @@
+Name: bh_alpha_beta_recruitment
+Description:
+Functional analysis of the alpha beta formulation for Beverton-Holt recruitment.
+
+Run time(seconds): 10
+Number of parameter sets: 811801
+Parameter Range: 
+alpha          1     -   10  
+beta           1     -   10  
+Infinitesimal Step: 
+alpha	0.01
+beta	0.01
+Continuous: 1
+Function Stochasticity: 3.14238
+Derivative Stochasticity of "alpha": 0.254292
+Derivative Stochasticity of "beta": 2.4336
+
+Covariance:
+lower bounds:
+2.311605e-03    2.041628e-02    
+2.041628e-02    6.805310e-01    
+
+central bounds:
+-1.322434e+02    -7.980943e+01    
+-7.980943e+01    -3.303915e+01    
+
+upper bounds:
+-2.634423e+02    -1.454400e+02    
+-1.454400e+02    -3.029176e+01    
+
+
+Correlation:
+lower bounds:
+4.325999e+02    1.297822e+01    
+1.297822e+01    1.469441e+00    
+
+central bounds:
+-7.561814e-03    -1.826633e-02    
+-1.826633e-02    -3.026712e-02    
+
+upper bounds:
+-3.795898e-03    -1.822527e-02    
+-1.822527e-02    -3.301228e-02    
