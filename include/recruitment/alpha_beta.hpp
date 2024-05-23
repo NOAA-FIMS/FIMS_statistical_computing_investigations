@@ -28,12 +28,20 @@ public:
         this->description = "Functional analysis of the alpha beta formulation for Beverton-Holt recruitment.";
         
         this->alpha.SetName("alpha");
-        this->alpha.SetBounds(1.0, 10.0);
-        this->RegisterParameter(this->alpha, 0.01);
+        this->alpha.SetBounds(1.0, 100.0);
+        this->RegisterParameter(this->alpha, 0.1);
         
         this->beta.SetName("beta");
-        this->beta.SetBounds(1.0, 10.0);
-        this->RegisterParameter(this->beta, 0.01);
+        this->beta.SetBounds(1.0, 100.0);
+        this->RegisterParameter(this->beta, 0.1);
+        
+        this->phi.SetName("phi");
+        this->phi.SetBounds(0.5, 1.0);
+        this->RegisterParameter(this->phi, 0.01);
+        
+        this->S.SetName("S");
+        this->S.SetBounds(6000.0, 10000.0);
+        this->RegisterParameter(this->S, 500);
         
     }
     

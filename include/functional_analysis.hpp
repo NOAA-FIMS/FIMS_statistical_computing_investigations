@@ -145,8 +145,8 @@ public:
      */
     void Analyze() {
 
-
-        std::cout << "Running analysis for " << this->name << "...\n";
+        Variable::tape.recording = false;
+        std::cout << "Running functional analysis for " << this->name << "...\n";
         double progress = 0;
         this->start_time = std::chrono::system_clock::now();
 
@@ -173,10 +173,8 @@ public:
             }
         }
         std::cout << "done.\n";
-        //        std::cout << "Infinitesimal Step: " << this->delta << "\n";
         std::cout << "Number of parameter sets: " << parameter_sets.size() << "\n";
-
-
+        std::cout << "Number of parameters per set: " << parameters.size() << "\n";
 
         mean_parameter_values.resize(this->parameters.size());
 
@@ -190,11 +188,12 @@ public:
             this->mean_parameter_values[i] /= static_cast<T> (this->parameter_sets.size());
         }
 
-        std::cout << "Running Infinitesimal Analysis..." << std::flush;
+        Variable::tape.recording = true;
+        std::cout << "Running Infinitesimal Analysis..." << std::endl;
         //Run Infinitesimal step - Riemann
         for (int i = 0; i < parameter_sets.size(); i++) {
 
-            progress = ((double) i / (double) parameter_sets.size())*.5;
+            progress = ((double) i / (double) parameter_sets.size());
 
             if ((i % 10) == 0) {
                 //show progress
@@ -233,8 +232,8 @@ public:
             }
 
         }
-
-        std::cout << "done.\nComputing Stochasticity..." << std::flush;
+        this->Progress(1.0);
+        std::cout << "\ndone.\nComputing Stochasticity..." << std::endl;
 
         //quantify smoothness
         std::vector<T> diff = Diff(this->values);
@@ -250,7 +249,7 @@ public:
         //                this->Progress(progress + progress_2);
         //            }
         for (int j = 0; j < this->parameters.size(); j++) {
-
+            progress = ((double) j / (double) parameter_sets.size());
             std::vector<T>& derivatives = this->derivatives[this->parameters[j]->info->id];
 
             std::vector<T> diff = Diff(derivatives);
@@ -263,9 +262,11 @@ public:
                     this->discontinuity_sets.push_back(this->parameter_sets[k]);
                 }
             }
+            this->Progress(progress);
         }
+        this->Progress(1.0);
         //        }
-        std::cout << "done.\nComputing Covariance..." << std::flush;
+        std::cout << "\ndone.\nComputing Covariance..." << std::flush;
 
         //covariance
         this->lower_bound_covariance = this->CovarianceMatrix(this->parameter_sets[0]);
@@ -281,8 +282,19 @@ public:
         this->end_time = std::chrono::system_clock::now();
         this->runtime = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
         std::cout << "done.\n";
-        progress = 0.98;
-        this->Progress(progress);
+    }
+
+    std::pair<T, T> FindMinMax(const std::vector<T>& v) {
+
+        T min_ = v[0]; //-1.0*std::numeric_limits<T>::infinity();
+        T max_ = v[0]; //std::numeric_limits<T>::infinity();
+
+        for (size_t i = 0; i < v.size(); i++) {
+            min_ = std::min(min_, v[i]);
+            max_ = std::max(max_, v[i]);
+        }
+
+        return std::pair<T, T>(min_, max_);
     }
 
     void Finalize() {
@@ -310,7 +322,9 @@ public:
         out << "Function Stochasticity: " << stochasticity << "\n";
 
         for (int i = 0; i < this->parameters.size(); i++) {
-            out << "Derivative Stochasticity of \"" << this->parameters[i]->GetName() << "\": " << stochasticity_of_derivatives[this->parameters[i]->info->id] << "\n";
+            std::pair<T, T> temp = this->FindMinMax(this->derivatives[this->parameters[i]->info->id]);
+            out << "Derivative Stochasticity of \"" << this->parameters[i]->GetName()
+                    << "\": " << stochasticity_of_derivatives[this->parameters[i]->info->id] << ",\t[ " << temp.first << " : " << temp.second << " ]\n";
         }
 
         out << "\nCovariance:\n";
@@ -334,16 +348,16 @@ public:
         out << this->upper_bound_correlation;
 
         out.close();
-        this->Progress(1.0);
+        //        this->Progress(1.0);
         std::cout << "\n";
         if (this->write_derivatives) {
             this->WriteDerivatives();
         }
-        
-        if(this->write_values){
+
+        if (this->write_values) {
             this->WriteValues();
         }
-        
+
         this->ClearData();
     }
 
@@ -448,12 +462,18 @@ public:
      *  
      * @param percentage
      */
-    void Progress(double percentage) {
-        //        int val = (int) (percentage * 100);
-        //        int lpad = (int) (percentage * PBWIDTH);
-        //        int rpad = PBWIDTH - lpad;
-        //        printf("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
-        //        std::cout << std::flush;
+    void Progress(double progress) {
+        int barWidth = 70;
+        std::cout << "\r";
+        std::cout << "[";
+        int pos = barWidth * progress;
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << int(progress * 100.0) << " %\r";
+        std::cout.flush();
     }
 
     const std::vector<T> Diff(const std::vector<T>& v, int lag = 1) {
