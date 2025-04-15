@@ -20,9 +20,9 @@ public:
         this->name = "dirichlet_default";
         this->description = "Functional analysis of the default Dirichlet distribution.";
 
-        this->theta.SetName("theta");
-        this->theta.SetBounds(0.0001, 5.0);
-        this->RegisterParameter(this->theta, 0.01);
+       // this->theta.SetName("theta");
+      //  this->theta.SetBounds(0.00001, 5.0);
+     //   this->RegisterParameter(this->theta, 0.01);
 
         for (size_t i = 0; i < x.size(); ++i)
         {
@@ -94,7 +94,7 @@ public:
         for (size_t i = 0; i < x.size(); ++i)
         {
             this->p[i].SetName("p" + std::to_string(i));
-            this->p[i].SetBounds(0.000001, 0.999999);
+            this->p[i].SetBounds(0.00001, 0.999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
     }

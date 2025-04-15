@@ -2,60 +2,62 @@ Name: dirichlet_default
 Description:
 Functional analysis of the default Dirichlet distribution.
 
-Run time(seconds): 70
-Number of parameter sets: 500000
+Run time(seconds): 0
+Number of parameter sets: 1000
+Number of parameters per set: 3
 Parameter Range: 
-theta          0.0001  -   5   
 p0             1e-05  -   1   
 p1             1e-05  -   1   
 p2             1e-05  -   1   
+Min function value: -17843.5
+Max function value: -6696.63
+Parameter Set for Min function value: 
+p0	1e-05
+p1	1e-05
+p2	1e-05
+Parameter Set for Max function value: 
+p0	0.80001
+p1	0.90001
+p2	1e-05
 Infinitesimal Step: 
-theta	0.01
 p0	0.1
 p1	0.1
 p2	0.1
 Function is Continuous: TRUE
-Function Stochasticity: 2.99702
-Derivative Stochasticity of "theta": nan,	[ 0 : 0 ]
-Derivative Stochasticity of "p0": 2.99999,	[ 3.84709e-05 : 5.94246e+08 ]
-Derivative Stochasticity of "p1": 3,	[ 5.94246e+08 : 6.68539e+08 ]
-Derivative Stochasticity of "p2": 3,	[ 5.94246e+08 : 6.68539e+08 ]
+Function Stochasticity: 0.512549
+Derivative Stochasticity of "p0": 0.329796,	[ 3.84709e-05 : 6.68539e+08 ]
+Derivative Stochasticity of "p1": 2.99856,	[ 3.84709e-05 : 6.68539e+08 ]
+Derivative Stochasticity of "p2": 9.93999,	[ 5.94246e+08 : 6.68539e+08 ]
 
 Covariance:
 lower bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-7.766962e-15    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -7.766962e-15    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -7.766962e-15    
 
 central bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-7.766962e-15    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -7.766962e-15    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -7.766962e-15    
 
 upper bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-8.427302e-01    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -8.427302e-01    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -7.479275e-15    
 
 
 Correlation:
 lower bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-1.287505e+14    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -1.287505e+14    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -1.287505e+14    
 
 central bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-1.287505e+14    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -1.287505e+14    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -1.287505e+14    
 
 upper bounds:
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
-nan    nan    nan    nan    
+-1.186619e+00    -0.000000e+00    -0.000000e+00    
+-0.000000e+00    -1.186619e+00    -0.000000e+00    
+-0.000000e+00    -0.000000e+00    -1.337028e+14    

@@ -4,11 +4,24 @@ Functional analysis of the Thorson Dirichlet distribution.
 
 Run time(seconds): 106
 Number of parameter sets: 500000
+Number of parameters per set: 4
 Parameter Range: 
 theta          1e-05  -   5   
 p0             1e-05  -   1   
 p1             1e-05  -   1   
 p2             1e-05  -   1   
+Min function value: -1.78264e+09
+Max function value: -14871.9
+Parameter Set for Min function value: 
+theta	1e-05
+p0	1e-05
+p1	1e-05
+p2	1e-05
+Parameter Set for Max function value: 
+theta	0.90001
+p0	0.10001
+p1	1e-05
+p2	1e-05
 Infinitesimal Step: 
 theta	0.01
 p0	0.1

@@ -29,7 +29,7 @@ namespace fims_math
         T t0 = a0 / (X + t1);
 
         T result = t0 - X + ((X - 0.5) * atl::log(X)) +
-                   (0.5 * std::log(2 * M_PI));
+                   (0.5 * std::log(2.0 * M_PI));
 
         return result;
     }
