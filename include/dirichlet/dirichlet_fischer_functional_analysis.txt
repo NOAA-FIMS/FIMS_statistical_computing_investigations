@@ -2,7 +2,7 @@ Name: dirichlet_fischer
 Description:
 Functional analysis of the Fischer Dirichlet distribution.
 
-Run time(seconds): 73
+Run time(seconds): 110
 Number of parameter sets: 500000
 Parameter Range: 
 theta          1e-05  -   5   

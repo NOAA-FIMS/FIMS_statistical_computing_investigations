@@ -2,7 +2,7 @@ Name: dirichlet_default
 Description:
 Functional analysis of the default Dirichlet distribution.
 
-Run time(seconds): 69
+Run time(seconds): 70
 Number of parameter sets: 500000
 Parameter Range: 
 theta          0.0001  -   5   

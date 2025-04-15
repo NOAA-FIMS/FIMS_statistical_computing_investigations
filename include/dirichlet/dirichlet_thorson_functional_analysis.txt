@@ -2,7 +2,7 @@ Name: dirichlet_thorson
 Description:
 Functional analysis of the Thorson Dirichlet distribution.
 
-Run time(seconds): 104
+Run time(seconds): 106
 Number of parameter sets: 500000
 Parameter Range: 
 theta          1e-05  -   5   
