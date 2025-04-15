@@ -1,0 +1,61 @@
+Name: dirichlet_default
+Description:
+Functional analysis of the default Dirichlet distribution.
+
+Run time(seconds): 69
+Number of parameter sets: 500000
+Parameter Range: 
+theta          0.0001  -   5   
+p0             1e-05  -   1   
+p1             1e-05  -   1   
+p2             1e-05  -   1   
+Infinitesimal Step: 
+theta	0.01
+p0	0.1
+p1	0.1
+p2	0.1
+Function is Continuous: TRUE
+Function Stochasticity: 2.99702
+Derivative Stochasticity of "theta": nan,	[ 0 : 0 ]
+Derivative Stochasticity of "p0": 2.99999,	[ 3.84709e-05 : 5.94246e+08 ]
+Derivative Stochasticity of "p1": 3,	[ 5.94246e+08 : 6.68539e+08 ]
+Derivative Stochasticity of "p2": 3,	[ 5.94246e+08 : 6.68539e+08 ]
+
+Covariance:
+lower bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+
+central bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+
+upper bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+
+
+Correlation:
+lower bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+
+central bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+
+upper bounds:
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    
+nan    nan    nan    nan    

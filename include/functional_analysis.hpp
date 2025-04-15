@@ -106,8 +106,8 @@ public:
 
     std::vector<T> mean_parameter_values;
 
-    bool write_values = false;
-    bool write_derivatives = false;
+    bool write_values = true;
+    bool write_derivatives = true;
 
     FunctionalAnalysis() {
 
