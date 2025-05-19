@@ -38,6 +38,8 @@ namespace fims_math
     {
         THORSON = 0,
         FISCHER,
+        LINEAR,
+        SATURATED,
         DEFAULT
     };
 
@@ -71,12 +73,22 @@ namespace fims_math
     {
         int N = std::accumulate(x.begin(), x.end(), 0);
         T neff = ((T(1.0) + theta) * static_cast<T>(N)) / (T(1.0) + theta * static_cast<T>(N));
-        
+
         std::vector<T> alpha(p.size());
         for (size_t k = 0; k < p.size(); ++k)
             alpha[k] = p[k] * neff;
 
         return log_dirichlet_multinom(x, alpha);
+    }
+
+    template <typename T>
+    inline T log_dirichlet_multinom_linear(const std::vector<int> &x, const std::vector<T> &p, T theta)
+    {
+    }
+
+    template <typename T>
+    inline T log_dirichlet_multinom_saturated(const std::vector<int> &x, const std::vector<T> &p, T beta)
+    {
     }
 
     template <typename T, DirichletType type = DirichletType::DEFAULT>
@@ -94,6 +106,12 @@ namespace fims_math
             break;
         case DirichletType::FISCHER:
             log_prob = log_dirichlet_multinom_fisch(x, p, theta);
+            break;
+            case DirichletType::LINEAR:
+            log_prob = log_dirichlet_multinom_linear(x, p, theta);
+            break;
+        case DirichletType::SATURATED:
+            log_prob = log_dirichlet_multinom_saturated(x, p, theta);
             break;
         default:
             log_prob = log_dirichlet_multinom(x, p);
