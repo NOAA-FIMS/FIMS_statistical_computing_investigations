@@ -116,9 +116,37 @@ namespace fims_math
     }
 
     template <typename T>
-    inline T log_dirichlet_multinom_saturated(const std::vector<int> &x, const std::vector<T> &p, T beta)
+    inline T log_dirichlet_multinom_saturated(const std::vector<int> &x, const std::vector<T> &pred_p, T beta)
     {
-        return 0.0; // silence compiler warning
+        T loglik = 0.0;
+        int ncat = x.size();
+        T N = 0.0;
+        for (int i = 0; i < ncat; ++i)
+        {
+            N += x[i];
+        }
+        // neff = N * (1 + beta)/(N + beta)
+        T neff = static_cast<T>(N) * (T(1.0) + beta) / (static_cast<T>(N) + beta);
+
+        // Dirichlet-Multinomial Log-Likelihood saturated parameterization
+        // Term 1 in eqn 4.5 of Fisch et al. (2021. Fish. Res., Table 3)
+        loglik += lgamma_lanczos(T(N + 1.0));
+        // Term 2
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik -= lgamma_lanczos(T(x[i] + 1.0));
+        }
+        // Term 3
+        loglik += lgamma_lanczos(beta);
+        // Term 4
+        loglik -= lgamma_lanczos(T(beta + N));
+        // Term 5
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik += lgamma_lanczos(T(static_cast<double>(x[i]) + beta * pred_p[i])) - lgamma_lanczos(T(beta * pred_p[i]));
+        }
+
+        return loglik;
     }
 
     template <typename T, DirichletType type = DirichletType::DEFAULT>
