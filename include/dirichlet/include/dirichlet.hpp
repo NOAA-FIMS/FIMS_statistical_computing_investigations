@@ -84,11 +84,13 @@ namespace fims_math
     template <typename T>
     inline T log_dirichlet_multinom_linear(const std::vector<int> &x, const std::vector<T> &p, T theta)
     {
+         return 0.0;//silence compiler warning
     }
 
     template <typename T>
     inline T log_dirichlet_multinom_saturated(const std::vector<int> &x, const std::vector<T> &p, T beta)
     {
+        return 0.0;//silence compiler warning
     }
 
     template <typename T, DirichletType type = DirichletType::DEFAULT>
