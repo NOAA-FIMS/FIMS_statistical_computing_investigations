@@ -1,0 +1,74 @@
+Name: dirichlet_thorson
+Description:
+Functional analysis of the Thorson Dirichlet distribution.
+
+Run time(seconds): 101
+Number of parameter sets: 500000
+Number of parameters per set: 4
+Parameter Range: 
+theta          1e-05  -   5   
+p0             1e-05  -   1   
+p1             1e-05  -   1   
+p2             1e-05  -   1   
+Min function value: -1.78264e+09
+Max function value: -14871.9
+Parameter Set for Min function value: 
+theta	1e-05
+p0	1e-05
+p1	1e-05
+p2	1e-05
+Parameter Set for Max function value: 
+theta	0.90001
+p0	0.10001
+p1	1e-05
+p2	1e-05
+Infinitesimal Step: 
+theta	0.01
+p0	0.1
+p1	0.1
+p2	0.1
+Function is Continuous: TRUE
+Function Stochasticity: 0.34752
+Derivative Stochasticity of "theta": 0.34752,	[ 16506.6 : 1.78264e+14 ]
+Derivative Stochasticity of "p0": 9.94701,	[ 2.98555e-05 : 5.94212e+13 ]
+Derivative Stochasticity of "p1": 0.329432,	[ 6.60262e+08 : 6.68489e+13 ]
+Derivative Stochasticity of "p2": 0.329432,	[ 6.60262e+08 : 6.68489e+13 ]
+
+Covariance:
+lower bounds:
+-3.646283e-20    1.963383e-20    1.963383e-20    1.963383e-20    
+1.963383e-20    -8.824436e-20    -1.057206e-20    -1.057206e-20    
+1.963383e-20    -1.057206e-20    -8.824436e-20    -1.057206e-20    
+1.963383e-20    -1.057206e-20    -1.057206e-20    -8.824436e-20    
+
+central bounds:
+-3.646283e-20    1.963383e-20    1.963383e-20    1.963383e-20    
+1.963383e-20    -8.824436e-20    -1.057206e-20    -1.057206e-20    
+1.963383e-20    -1.057206e-20    -8.824436e-20    -1.057206e-20    
+1.963383e-20    -1.057206e-20    -1.057206e-20    -8.824436e-20    
+
+upper bounds:
+-3.634981e-05    1.281412e-05    2.019343e-10    2.019343e-10    
+1.281412e-05    -1.592732e+04    -7.118636e-11    -7.118636e-11    
+2.019343e-10    -7.118636e-11    -7.853255e-15    -1.121807e-15    
+2.019343e-10    -7.118636e-11    -1.121807e-15    -7.853255e-15    
+
+
+Correlation:
+lower bounds:
+-2.742519e+19    6.101937e+18    6.101937e+18    6.101937e+18    
+6.101937e+18    -1.133217e+19    -1.357644e+18    -1.357644e+18    
+6.101937e+18    -1.357644e+18    -1.133217e+19    -1.357644e+18    
+6.101937e+18    -1.357644e+18    -1.357644e+18    -1.133217e+19    
+
+central bounds:
+-2.742519e+19    6.101937e+18    6.101937e+18    6.101937e+18    
+6.101937e+18    -1.133217e+19    -1.357644e+18    -1.357644e+18    
+6.101937e+18    -1.357644e+18    -1.133217e+19    -1.357644e+18    
+6.101937e+18    -1.357644e+18    -1.357644e+18    -1.133217e+19    
+
+upper bounds:
+-2.751046e+04    2.213319e-05    7.073891e+08    7.073891e+08    
+2.213319e-05    -6.278521e-05    -5.691208e-01    -5.691208e-01    
+7.073891e+08    -5.691208e-01    -1.273357e+14    -1.818942e+13    
+7.073891e+08    -5.691208e-01    -1.818942e+13    -1.273357e+14    
