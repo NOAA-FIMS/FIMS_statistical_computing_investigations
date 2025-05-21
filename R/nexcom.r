@@ -1,6 +1,6 @@
 #
 # nexcom.r
-# R script that produces the next composition of the integer N into K parts
+# R script that produces the next composition of the integer N into K parts.
 #
 # function nexcom.alg
 # Description: Returns the next composition vector
@@ -17,11 +17,11 @@
 #	MTC	Logical flag for whether the composition calculation is complete.
 #       If MTC = TRUE, then the current composition is not the final Kth composition.
 #		If MTC=FALSE, the current composition is the final Kth composition.
-#	I	index variable
-#	J	index variable
+#	I	index variable.
+#	J	index variable.
 #
 #Return:
-#	A list containing (R, MTC, I, J)
+#	A list containing (R, MTC, I, J).
 #
 nexcom.alg <- function (N, K, R, MTC, I, J) {
 
@@ -50,14 +50,14 @@ nexcom.alg <- function (N, K, R, MTC, I, J) {
 #FUNCTION nexcom
 #Description: 
 #     Wrapper function for function nexcom.alg. Allows user to 
-#automate NEXKSB for all k-part compositions of n.
+#	  automate NEXKSB for all k-part compositions of n.
 #
 #Arguments:
 #	N	Number whose composistions are desired.
 #	K	Number of parts of desired composistion. 
 #
 #Return:
-#	A data frame will all possible K-part compositions of N.
+#	A data frame containing all possible K-part compositions of N.
 #
 nexcom <- function (N, K) {
 
