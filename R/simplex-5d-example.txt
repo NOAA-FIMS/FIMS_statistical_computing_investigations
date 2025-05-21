@@ -1,0 +1,16 @@
+library(tidyverse)
+
+simplex5D <- nexcom(20,6)
+
+simplex5D <- simplex5D/20.0
+
+simplex5D
+
+parts6 <- simplex5D
+
+parts6 <- mutate(parts6, score = 1.618*R.1 - R.2^2 + exp(R.3) - 4*R.4 + R.5 + 3*R.6 - 0.50)
+
+parts6 <- mutate(parts6, positive = score>0)
+
+write_csv(parts6,"parts6-example.csv")
+
