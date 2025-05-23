@@ -1,0 +1,74 @@
+Name: dirichlet_linear
+Description:
+Functional analysis of the Linear Dirichlet distribution.
+
+Run time(seconds): 113
+Number of parameter sets: 500000
+Number of parameters per set: 4
+Parameter Range: 
+theta          1e-05  -   5   
+p0             1e-05  -   0.999999
+p1             1e-05  -   0.999999
+p2             1e-05  -   0.999999
+Min function value: -6.68487e+07
+Max function value: -527.522
+Parameter Set for Min function value: 
+theta	1e-05
+p0	1e-05
+p1	1e-05
+p2	1e-05
+Parameter Set for Max function value: 
+theta	0.90001
+p0	0.90001
+p1	1e-05
+p2	1e-05
+Infinitesimal Step: 
+theta	0.01
+p0	0.1
+p1	0.1
+p2	0.1
+Function is Continuous: TRUE
+Function Stochasticity: 0.35591
+Derivative Stochasticity of "theta": 0.355909,	[ 533.705 : 6.68487e+12 ]
+Derivative Stochasticity of "p0": 9.94702,	[ 5.11498 : 2.2283e+12 ]
+Derivative Stochasticity of "p1": 0.333334,	[ 2.48089e+07 : 2.2283e+12 ]
+Derivative Stochasticity of "p2": 0.333334,	[ 2.48088e+07 : 2.2283e+12 ]
+
+Covariance:
+lower bounds:
+-9.972784e-19    4.986392e-19    4.986392e-19    4.986392e-19    
+4.986392e-19    -2.493186e-18    -2.493196e-19    -2.493196e-19    
+4.986392e-19    -2.493196e-19    -2.493186e-18    -2.493196e-19    
+4.986392e-19    -2.493196e-19    -2.493196e-19    -2.493186e-18    
+
+central bounds:
+-9.972784e-19    4.986392e-19    4.986392e-19    4.986392e-19    
+4.986392e-19    -2.493186e-18    -2.493196e-19    -2.493196e-19    
+4.986392e-19    -2.493196e-19    -2.493186e-18    -2.493196e-19    
+4.986392e-19    -2.493196e-19    -2.493196e-19    -2.493186e-18    
+
+upper bounds:
+-1.099738e-03    -1.775797e-04    6.103356e-09    6.103364e-09    
+-1.775797e-04    -1.104146e-01    9.855366e-10    9.855379e-10    
+6.103356e-09    9.855366e-10    -2.356190e-13    -3.387262e-14    
+6.103364e-09    9.855379e-10    -3.387262e-14    -2.356191e-13    
+
+
+Correlation:
+lower bounds:
+-1.002729e+18    2.005466e+17    2.005466e+17    2.005466e+17    
+2.005466e+17    -4.010932e+17    -4.010948e+16    -4.010948e+16    
+2.005466e+17    -4.010948e+16    -4.010932e+17    -4.010948e+16    
+2.005466e+17    -4.010948e+16    -4.010948e+16    -4.010932e+17    
+
+central bounds:
+-1.002729e+18    2.005466e+17    2.005466e+17    2.005466e+17    
+2.005466e+17    -4.010932e+17    -4.010948e+16    -4.010948e+16    
+2.005466e+17    -4.010948e+16    -4.010932e+17    -4.010948e+16    
+2.005466e+17    -4.010948e+16    -4.010948e+16    -4.010932e+17    
+
+upper bounds:
+-9.093075e+02    -1.462438e+00    2.355425e+07    2.355427e+07    
+-1.462438e+00    -9.056773e+00    3.788227e+04    3.788230e+04    
+2.355425e+07    3.788227e+04    -4.244140e+12    -6.101380e+11    
+2.355427e+07    3.788230e+04    -6.101380e+11    -4.244139e+12    
