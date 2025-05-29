@@ -1,5 +1,5 @@
-#ifndef DIRCHLET_HPP
-#define DIRCHLET_HPP
+#ifndef DIRICHLET_HPP
+#define DIRICHLET_HPP
 
 #include <vector>
 #include <numeric>
