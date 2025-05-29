@@ -2,19 +2,17 @@ library(tidyverse)
 
 simplex2D <- nexcom(100,3)
 
-simplex2D
-
 simplex2D <- simplex2D/100.0
 
 simplex2D
 
 Chook <- simplex2D
 
-Chook <- mutate(Chook, score = R.2*0.334+R.3*0.426-0.516)
+Chook <- mutate(Chook, score = P.2*0.334+P.3*0.426-0.516)
 # FWIW The score is the predicted reduction in fishing
-# mortality by switching the proportion of tuna hooks (R.2)
-# and the proportion of Japanese hooks (R.3) to circle hooks
-# (R.1) and -0.516 is the target fishing mortality reduction.
+# mortality by switching the proportion of tuna hooks (P.2)
+# and the proportion of Japanese hooks (P.3) to circle hooks
+# (P.1) and -0.516 is the target fishing mortality reduction.
 # Given we do not know the proportions of hook types
 # across the WCPFC tuna longline fleets, the proportion
 # simplex is used to gather information on the score across
@@ -22,5 +20,5 @@ Chook <- mutate(Chook, score = R.2*0.334+R.3*0.426-0.516)
 
 Chook <- mutate(Chook, rebuild = score>=0)
 
-write_csv(Chook,"Chook-example.csv")
+write_csv(Chook,"3-parts-example.csv")
 
