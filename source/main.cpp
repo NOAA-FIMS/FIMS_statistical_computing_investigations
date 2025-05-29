@@ -61,18 +61,18 @@ std::string file = "/Users/matthew.supernaw/Dirichlet-study/5_29/FIMS_statistica
     dirichlet_thorson.Analyze();
     dirichlet_thorson.Finalize();
     
-    Dirichlet_Fischer<double> dirichlet_fischer(file);
+    Dirichlet_Fisch<double> dirichlet_fisch(file);
     if (write_values)
     {
-        dirichlet_fischer.write_values = true;
+        dirichlet_fisch.write_values = true;
     }
     if (write_derivatives)
     {
-        dirichlet_fischer.write_derivatives = true;
+        dirichlet_fisch.write_derivatives = true;
     }
-    dirichlet_fischer.Initialize();
-    dirichlet_fischer.Analyze();
-    dirichlet_fischer.Finalize();
+    dirichlet_fisch.Initialize();
+    dirichlet_fisch.Analyze();
+    dirichlet_fisch.Finalize();
 
     Dirichlet_Linear<double> dirichlet_linear;
     if (write_values)

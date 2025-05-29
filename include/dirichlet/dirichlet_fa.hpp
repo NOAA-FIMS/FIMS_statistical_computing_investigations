@@ -96,7 +96,7 @@ public:
 };
 
 template <typename T>
-class Dirichlet_Fischer : public Dirichlet_Study_Base<T>
+class Dirichlet_Fisch : public Dirichlet_Study_Base<T>
 {
 public:
     typedef typename FunctionalAnalysis<T>::Variable Variable;
@@ -104,17 +104,17 @@ public:
     std::vector<Variable> p = {0.4, 0.4, 0.2};
     Variable theta = 0.01;
 
-    Dirichlet_Fischer() {}
+    Dirichlet_Fisch() {}
 
-    Dirichlet_Fischer(std::string csv_file)
+    Dirichlet_Fisch(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
     }
 
     virtual void Initialize()
     {
-        this->name = "dirichlet_fischer";
-        this->description = "Functional analysis of the Fischer Dirichlet distribution.";
+        this->name = "dirichlet_fisch";
+        this->description = "Functional analysis of the Fisch Dirichlet distribution.";
 
         this->theta.SetName("theta");
         this->theta.SetBounds(0.00001, 5.0);
