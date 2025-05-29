@@ -27,7 +27,6 @@ public:
     Dirichlet_Default(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
-        std::cout<<"csv size = " <<this->simplex_from_csv.size()<<"\n";
     }
 
     virtual void Initialize()
