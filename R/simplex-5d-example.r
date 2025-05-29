@@ -1,4 +1,5 @@
 library(tidyverse)
+source("nexcom.r")
 
 simplex5D <- nexcom(10,6)
 
