@@ -1,4 +1,6 @@
 library(tidyverse)
+source("nexcom.r")
+
 
 simplex2D <- nexcom(100,3)
 

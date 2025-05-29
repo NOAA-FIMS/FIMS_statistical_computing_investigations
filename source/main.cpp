@@ -11,6 +11,9 @@
 #include "../include/dirichlet/dirichlet_fa.hpp"
 int main(int argc, char **argv)
 {
+
+std::string file = "/Users/matthew.supernaw/Dirichlet-study/5_29/FIMS_statistical_computing_investigations/R/3-parts-example.csv";
+
     bool write_values = false;
     bool write_derivatives = false;
     std::vector<std::string> args;
@@ -32,7 +35,7 @@ int main(int argc, char **argv)
     }
 
 
-    Dirichlet_Default<double> dirichlet_default;
+    Dirichlet_Default<double> dirichlet_default(file);
     if (write_values)
     {
         dirichlet_default.write_values = true;
@@ -45,7 +48,7 @@ int main(int argc, char **argv)
     dirichlet_default.Analyze();
     dirichlet_default.Finalize();
 
-    Dirichlet_Thorson<double> dirichlet_thorson;
+    Dirichlet_Thorson<double> dirichlet_thorson(file);
     if (write_values)
     {
         dirichlet_thorson.write_values = true;
@@ -58,18 +61,18 @@ int main(int argc, char **argv)
     dirichlet_thorson.Analyze();
     dirichlet_thorson.Finalize();
     
-    Dirichlet_Fischer<double> dirichlet_fischer;
+    Dirichlet_Fisch<double> dirichlet_fisch(file);
     if (write_values)
     {
-        dirichlet_fischer.write_values = true;
+        dirichlet_fisch.write_values = true;
     }
     if (write_derivatives)
     {
-        dirichlet_fischer.write_derivatives = true;
+        dirichlet_fisch.write_derivatives = true;
     }
-    dirichlet_fischer.Initialize();
-    dirichlet_fischer.Analyze();
-    dirichlet_fischer.Finalize();
+    dirichlet_fisch.Initialize();
+    dirichlet_fisch.Analyze();
+    dirichlet_fisch.Finalize();
 
     Dirichlet_Linear<double> dirichlet_linear;
     if (write_values)
@@ -84,7 +87,7 @@ int main(int argc, char **argv)
     dirichlet_linear.Analyze();
     dirichlet_linear.Finalize();
     
-    Dirichlet_Saturated<double> dirichlet_saturated;
+    Dirichlet_Saturated<double> dirichlet_saturated(file);
     if (write_values)
     {
         dirichlet_saturated.write_values = true;
