@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     }
 
 
-    Dirichlet_Default<double> dirichlet_default;
+    Dirichlet_Default<double> dirichlet_default("/Users/matthew.supernaw/Dirichlet-study/5_29/FIMS_statistical_computing_investigations/R/3-parts-example.csv");
     if (write_values)
     {
         dirichlet_default.write_values = true;
