@@ -38,14 +38,14 @@ public:
 
     std::string name;
     std::string description;
-
+    std::string output_directory = "";
     T delta = 1e-3;
 
     // all possible input values
     std::vector<std::vector<T>> input_values;
 
     // parameter set
-    std::vector<std::vector<T> > parameter_sets;
+    std::vector<std::vector<T>> parameter_sets;
 
     // function values from each evaluation
     std::vector<T> values;
@@ -72,7 +72,7 @@ public:
     T min_value = std::numeric_limits<T>::max();
 
     // max evaluated function value
-    T max_value = std::numeric_limits<T>::lowest();//-1.7976931348623157e+308;
+    T max_value = std::numeric_limits<T>::lowest(); //-1.7976931348623157e+308;
 
     // parameter set for the min evaluated function value
     std::vector<T> parameter_set_min;
@@ -106,6 +106,15 @@ public:
 
     FunctionalAnalysis()
     {
+    }
+    
+    /**
+     * @brief Set the output directory for the analysis.
+     * @details This directory is used to store the results of the analysis.
+     */
+    void SetOutputDirectory(const std::string &directory)
+    {
+        this->output_directory = directory;
     }
 
     void ClearData()
@@ -227,18 +236,18 @@ public:
             if (v.GetValue() < this->min_value)
             {
                 this->min_value = v.GetValue();
-                for(size_t j = 0; j < this->parameters.size(); j++)
+                for (size_t j = 0; j < this->parameters.size(); j++)
                 {
                     this->parameter_set_min[j] = this->parameters[j]->GetValue();
                 }
             }
 
-            if (v.GetValue()  > this->max_value)
+            if (v.GetValue() > this->max_value)
             {
-                 
+
                 this->max_value = v.GetValue();
-                for(size_t j = 0; j < this->parameters.size(); j++)
-                {   
+                for (size_t j = 0; j < this->parameters.size(); j++)
+                {
                     this->parameter_set_max[j] = this->parameters[j]->GetValue();
                 }
             }
@@ -421,7 +430,7 @@ public:
     {
         std::ofstream out;
         std::stringstream ss;
-        ss << this->name << "_values.csv";
+        ss << this->output_directory << this->name << "_values.csv";
         out.open(ss.str().c_str());
         for (int i = 0; i < this->values.size() - 1; i++)
         {
@@ -434,7 +443,7 @@ public:
     {
         std::ofstream out;
         std::stringstream ss;
-        ss << this->name << "_derivatives.csv";
+        ss << this->output_directory << this->name << "_derivatives.csv";
         out.open(ss.str().c_str());
 
         for (int i = 0; i < this->parameters.size(); i++)
