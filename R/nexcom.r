@@ -1,29 +1,29 @@
+# script nexcom.r
+# nexcom(N, K) outputs a list containing the set of compositions
+#              of the integer N into K parts. The composition list
+#              is ordered lexicographically from the first composition
+#              of P[first] = (N, 0, 0, ..., 0) to the last composition
+#              of P[last] = (0, 0, 0, ..., N)
 #
-# nexcom.r
-# nexcom script that produces the next composition of the integer N into K parts.
+# function nexcom.step
+# nexcom.step(N, K, P, MTC, I, J) returns the next K-dimensional composition 
+#                                 vector of N, P[next], given the current 
+#                                 composition vector of N, P[current].
+# function arguments are:
+#	N - The positive integer to compose into K parts.
+#	K - The positive  integer number of parts, or categories in a composition vector. 
+#	P - The current composition vector in the lexicographic set of all vectors.
+#	MTC	- The logical flag indicating if the set of compositions of N is not complete
+#       as in an acronym for "More To Come".
+#   If MTC = TRUE, then the current composition is not the last composition
+#                  in the lexicographic set of all vectors.
+#		If MTC = FALSE, then the current composition is the last composition.
+#	I - An index variable.
+#	J - An index variable.
 #
-# function nexcom.alg
-# Description: Returns the next composition vector
-# 			   of the integer N into K parts.
+# returns - A list containing (P, MTC, I, J).
 #
-#	Derived from the NEXKSB algorithm and FORTRAN subroutine written 
-#   in "Combinational Algorithms for Computers and Calculators, Second 
-#   Edition" by Albert Nijenhuis and Herbert S. Wilf.
-#
-# function arguments:
-#	N	The input integer to partition into K parts.
-#	K	Number of parts in a calculated composition. 
-#	P	The input composition vector of N into K parts and the returned output composition.
-#	MTC	Logical flag for whether the composition calculation is complete.
-#       If MTC = TRUE, then the current composition is not the last composition.
-#		If MTC=FALSE, the current composition is the last composition.
-#	I	index variable.
-#	J	index variable.
-#
-#Return:
-#	A list containing (P, MTC, I, J).
-#
-nexcom.alg <- function (N, K, P, MTC, I, J) {
+nexcom.step <- function (N, K, P, MTC, I, J) {
 
 	if (MTC == FALSE) {
 		P[1] <- N
@@ -47,28 +47,26 @@ nexcom.alg <- function (N, K, P, MTC, I, J) {
 	return(list(P = P, MTC = MTC, I = I, J = J))
 }
 
-#FUNCTION nexcom
-#Description: 
-#     Wrapper function for function nexcom.alg. Allows user to 
-#	  automate NEXKSB for all k-part compositions of n.
+# function nexcom
+# nexcom() is a wrapper function that calls nexcom.step to step through
+# the set of lexicographically-ordered K-compositions of N.
 #
-#Arguments:
-#	N	Number whose compositions are desired.
-#	K	Number of parts of desired composition. 
+# function arguments are:
+#	N - The positive integer to compose into K parts.
+#	K - The number of parts of N, or categories in the composition. 
 #
-#Return:
-#	A data frame containing all possible K-part compositions of N.
+# returns - A data frame containing all possible K-part compositions of N.
 #
 nexcom <- function (N, K) {
 
-	rn.comp <- nexcom.alg(N, K, P = integer(K), MTC = FALSE, I = 0, J = 0)
-	dt.comp <- data.frame(P = rbind(rn.comp$P)) 
+	rn.comp <- nexcom.step(N, K, P = integer(K), MTC = FALSE, I = 0, J = 0)
+	df.comp <- data.frame(P = rbind(rn.comp$P)) 
 	
 	ii <- 0
 	while(rn.comp$MTC == TRUE) {
-		rn.comp <- nexcom.alg(N, K, P = rn.comp$P, MTC = rn.comp$MTC, I = rn.comp$I, J = rn.comp$J)
-		dt.comp <- rbind(dt.comp, data.frame(P = rbind(rn.comp$P)))
+		rn.comp <- nexcom.step(N, K, P = rn.comp$P, MTC = rn.comp$MTC, I = rn.comp$I, J = rn.comp$J)
+		df.comp <- rbind(df.comp, data.frame(P = rbind(rn.comp$P)))
 		ii <- ii + 1
 	}
-	return(dt.comp)
+	return(df.comp)
 }
