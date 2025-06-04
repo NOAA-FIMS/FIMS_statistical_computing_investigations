@@ -6,10 +6,88 @@
 #include "../util/string_util.hpp"
 
 template <typename T>
+struct simplex_data
+{
+    int nparts;
+    T p_1;
+    T p_2;
+    T p_3;
+    T p_4;
+    T p_5;
+    T p_6;
+    T score;
+    bool rebuild
+};
+
+template <typename T>
 class Dirichlet_Study_Base : public FunctionalAnalysis<T>
 {
 public:
     std::vector<std::vector<std::string>> simplex_from_csv;
+    std::vector<simplex_data<T>> simplex_data;
+
+    void parse_simplex_data()
+    {
+        size_t nps = 0; // number of parts in simplex
+        if (!simplex_from_csv.empty())
+        {
+            nps = simplex_from_csv[0].size();
+        }
+        else
+        {
+            return; // no data to parse
+        }
+
+        for (const auto &row : simplex_from_csv)
+        {
+
+            simplex_data<T> data;
+            data.nparts = nps;
+            if (nps == 8)
+            {
+                data.p_1 = static_cast<T>(std::stod(row[0]));
+                data.p_2 = static_cast<T>(std::stod(row[1]));
+                data.p_3 = static_cast<T>(std::stod(row[2]));
+                data.p_4 = static_cast<T>(std::stod(row[3]));
+                data.p_5 = static_cast<T>(std::stod(row[4]));
+                data.p_6 = static_cast<T>(std::stod(row[5]));
+                data.score = static_cast<T>(std::stod(row[6]));
+                if (row[7] == "TRUE" || row[7] == "1")
+                {
+                    data.rebuild = true;
+                }
+                else
+                {
+                    data.rebuild = false;
+                }
+                simplex_data.push_back(data);
+            }
+            else if (nps == 5)
+            {
+                data.p_1 = static_cast<T>(std::stod(row[0]));
+                data.p_2 = static_cast<T>(std::stod(row[1]));
+                data.p_3 = static_cast<T>(std::stod(row[2]));
+                data.score = static_cast<T>(std::stod(row[3]));
+                if (row[4] == "TRUE" || row[4] == "1")
+                {
+                    data.rebuild = true;
+                }
+                else
+                {
+                    data.rebuild = false;
+                }
+                simplex_data.push_back(data);
+            }
+        }
+    }
+
+    Dirichlet_Study_Base() {}
+
+    Dirichlet_Study_Base(std::string csv_file)
+    {
+        this->simplex_from_csv = parseCSV(csv_file);
+        parse_simplex_data();
+    }
 };
 
 template <typename T>
