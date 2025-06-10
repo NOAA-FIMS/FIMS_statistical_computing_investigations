@@ -48,5 +48,5 @@ df <- data.frame(A = A, B = B, C = C)
 # Plot the simplex
 ggtern(data = df, aes(x = A, y = B, z = C)) +
   geom_point(size = 0.5, alpha = 0.5) +
-  theme_minimal() +
-  labs(title = paste("3-Category", choice, "Proportion Simplex with", n, "points"))
+  theme_bw() +
+  labs(title = paste("Normalized Uniform on 2D Simplex"))
