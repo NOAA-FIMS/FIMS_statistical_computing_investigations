@@ -16,7 +16,7 @@ struct simplex_data
     T p_5;
     T p_6;
     T score;
-    bool rebuild
+    bool rebuild;
 };
 
 template <typename T>
@@ -41,7 +41,7 @@ public:
         for (const auto &row : simplex_from_csv)
         {
 
-            simplex_data<T> data;
+            ::simplex_data<T> data;
             data.nparts = nps;
             if (nps == 8)
             {
