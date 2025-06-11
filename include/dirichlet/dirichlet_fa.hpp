@@ -94,7 +94,24 @@ public:
                 number = 0; // reset for next row
             }
         }
+
+void SumToOne(std::vector<T> &p)
+
+{
+    T sum = 0;
+    for (const auto &val : p)
+    {
+        sum += val;
     }
+
+    if (sum != 0)
+    {
+        for (auto &val : p)
+        {
+            val /= sum;
+        }
+    }
+}
 
     Dirichlet_Study_Base() {}
 
