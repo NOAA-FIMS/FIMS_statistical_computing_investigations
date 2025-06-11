@@ -39,15 +39,10 @@ public:
             return; // no data to parse
         }
 
-        T number;
-        T previous_number = 0;
-        int counter = 0;
         for (size_t i = 1; i < simplex_from_csv.size(); i++)
         {
-            previous_number = number;
             auto &row = simplex_from_csv[i];
 
-            counter++;
             ::simplex_data<T> data;
             data.nparts = nps;
             if (nps == 8)
@@ -59,7 +54,6 @@ public:
                 data.p_5 = static_cast<T>(std::stod(row[4]));
                 data.p_6 = static_cast<T>(std::stod(row[5]));
                 data.score = static_cast<T>(std::stod(row[6]));
-                number += data.p_1;
                 if (row[7] == "TRUE" || row[7] == "1")
                 {
                     data.rebuild = true;
@@ -77,7 +71,6 @@ public:
                 data.p_2 = static_cast<T>(std::stod(row[1]));
                 data.p_3 = static_cast<T>(std::stod(row[2]));
                 data.score = static_cast<T>(std::stod(row[3]));
-                number += data.p_2;
                 if (row[4] == "TRUE" || row[4] == "1")
                 {
                     data.rebuild = true;
@@ -88,30 +81,26 @@ public:
                 }
                 simplex_data.push_back(data);
             }
-            if (number >= 1.0)
+        }
+    }
+    
+    void SumToOne(std::vector<T> &p)
+
+    {
+        T sum = 0;
+        for (const auto &val : p)
+        {
+            sum += val;
+        }
+
+        if (sum != 0)
+        {
+            for (auto &val : p)
             {
-                std::cout << "Simplex data parsed successfully with total probability: " << number << " at row " << i << "previous "<<previous_number<< std::endl;
-                number = 0; // reset for next row
+                val /= sum;
             }
         }
-
-void SumToOne(std::vector<T> &p)
-
-{
-    T sum = 0;
-    for (const auto &val : p)
-    {
-        sum += val;
     }
-
-    if (sum != 0)
-    {
-        for (auto &val : p)
-        {
-            val /= sum;
-        }
-    }
-}
 
     Dirichlet_Study_Base() {}
 
