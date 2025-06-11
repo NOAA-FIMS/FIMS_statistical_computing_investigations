@@ -1,7 +1,7 @@
 # Compiler
 CXX = g++
 # Compiler flags
-CXXFLAGS = -Wall -O2 -std=c++11
+CXXFLAGS = -w -O2 -std=c++11
 # Target executable
 TARGET = dirichlet
 # Source file (in parent directory)

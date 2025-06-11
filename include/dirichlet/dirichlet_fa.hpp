@@ -28,6 +28,7 @@ public:
 
     void parse_simplex_data()
     {
+        std::cout << "Parsing simplex data from CSV..." << std::endl;
         size_t nps = 0; // number of parts in simplex
         if (!simplex_from_csv.empty())
         {
@@ -38,9 +39,15 @@ public:
             return; // no data to parse
         }
 
-        for (const auto &row : simplex_from_csv)
+        T number;
+        T previous_number = 0;
+        int counter = 0;
+        for (size_t i = 1; i < simplex_from_csv.size(); i++)
         {
+            previous_number = number;
+            auto &row = simplex_from_csv[i];
 
+            counter++;
             ::simplex_data<T> data;
             data.nparts = nps;
             if (nps == 8)
@@ -52,6 +59,7 @@ public:
                 data.p_5 = static_cast<T>(std::stod(row[4]));
                 data.p_6 = static_cast<T>(std::stod(row[5]));
                 data.score = static_cast<T>(std::stod(row[6]));
+                number += data.p_1;
                 if (row[7] == "TRUE" || row[7] == "1")
                 {
                     data.rebuild = true;
@@ -65,9 +73,11 @@ public:
             else if (nps == 5)
             {
                 data.p_1 = static_cast<T>(std::stod(row[0]));
+
                 data.p_2 = static_cast<T>(std::stod(row[1]));
                 data.p_3 = static_cast<T>(std::stod(row[2]));
                 data.score = static_cast<T>(std::stod(row[3]));
+                number += data.p_2;
                 if (row[4] == "TRUE" || row[4] == "1")
                 {
                     data.rebuild = true;
@@ -78,6 +88,11 @@ public:
                 }
                 simplex_data.push_back(data);
             }
+            if (number >= 1.0)
+            {
+                std::cout << "Simplex data parsed successfully with total probability: " << number << " at row " << i << "previous "<<previous_number<< std::endl;
+                number = 0; // reset for next row
+            }
         }
     }
 
@@ -86,7 +101,7 @@ public:
     Dirichlet_Study_Base(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
-        parse_simplex_data();
+        this->parse_simplex_data();
     }
 };
 
@@ -105,6 +120,7 @@ public:
     Dirichlet_Default(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
+        this->parse_simplex_data();
     }
 
     virtual void Initialize()
@@ -147,7 +163,9 @@ public:
 
     Dirichlet_Thorson(std::string csv_file)
     {
+
         this->simplex_from_csv = parseCSV(csv_file);
+        this->parse_simplex_data();
     }
 
     virtual void Initialize()
@@ -187,6 +205,7 @@ public:
     Dirichlet_Fisch(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
+        this->parse_simplex_data();
     }
 
     virtual void Initialize()
@@ -227,6 +246,7 @@ public:
     Dirichlet_Linear(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
+        this->parse_simplex_data();
     }
 
     virtual void Initialize()
@@ -268,6 +288,7 @@ public:
     Dirichlet_Saturated(std::string csv_file)
     {
         this->simplex_from_csv = parseCSV(csv_file);
+        this->parse_simplex_data();
     }
 
     virtual void Initialize()
