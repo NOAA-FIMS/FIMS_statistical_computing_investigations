@@ -83,8 +83,11 @@ public:
             }
         }
     }
-    
-    void SumToOne(std::vector<T> &p)
+    /**
+     * @brief Normalize the simplex data to sum to one.
+     * @param p The vector of probabilities.
+     */
+    void Normalize(std::vector<atl::Variable<T> > &p)
 
     {
         T sum = 0;
@@ -149,6 +152,7 @@ public:
 
     virtual atl::Variable<T> Evaluate()
     {
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::DEFAULT>(x, p, theta);
     }
@@ -192,6 +196,7 @@ public:
     }
     virtual atl::Variable<T> Evaluate()
     {
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::THORSON>(x, p, theta);
     }
@@ -274,6 +279,7 @@ public:
 
     virtual atl::Variable<double> Evaluate()
     {
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::LINEAR>(x, p, theta);
     }
@@ -316,6 +322,7 @@ public:
 
     virtual atl::Variable<double> Evaluate()
     {
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::SATURATED>(x, p, beta);
     }
