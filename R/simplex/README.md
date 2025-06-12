@@ -5,7 +5,7 @@ composition data likelihoods.
   
 *  **mk-simplex.r** outputs uniform grid of simplex samples to a csv-format file  
    based on the based on the set of K-compositions of an integer,  
-   where a closed simplex includes the boundary with one or more zero proportions
+   where a closed simplex includes the boundary with one or more zero proportions  
    and an open simplex excludes the boundary with all proportions positive   
 *  **mk-simplex-dirichlet.r** outputs random samples from a normalized  
    Dirichlet distribution to a csv-format file using MCMCpack()  
