@@ -45,57 +45,66 @@ public:
             auto &row = simplex_from_csv[i];
 
             ::simplex_data<T> data;
-             data.nparts = nps;
-            data.p.resize(nps-1);
+            data.nparts = nps;
+            data.p.resize(nps - 1);
             for (size_t j = 0; j < nps - 1; j++)
             {
                 data.p[j] = static_cast<T>(std::stod(row[j]));
             }
-           
-            // if (nps == 8)
-            // {
-            //     data.p_1 = static_cast<T>(std::stod(row[0]));
-            //     data.p_2 = static_cast<T>(std::stod(row[1]));
-            //     data.p_3 = static_cast<T>(std::stod(row[2]));
-            //     data.p_4 = static_cast<T>(std::stod(row[3]));
-            //     data.p_5 = static_cast<T>(std::stod(row[4]));
-            //     data.p_6 = static_cast<T>(std::stod(row[5]));
-            //     data.score = static_cast<T>(std::stod(row[6]));
-                if (row[nps-1] == "TRUE" || row[nps-1] == "1")
-                {
-                    data.rebuild = true;
-                }
-                else
-                {
-                    data.rebuild = false;
-                }
-                simplex_data.push_back(data);
-            // }
-            // else if (nps == 5)
-            // {
 
-            //     data.p_1 = static_cast<T>(std::stod(row[0]));
-
-            //     data.p_2 = static_cast<T>(std::stod(row[1]));
-            //     data.p_3 = static_cast<T>(std::stod(row[2]));
-            //     data.score = static_cast<T>(std::stod(row[3]));
-            //     if (row[4] == "TRUE" || row[4] == "1")
-            //     {
-            //         data.rebuild = true;
-            //     }
-            //     else
-            //     {
-            //         data.rebuild = false;
-            //     }
-            //     simplex_data.push_back(data);
-            // // }
+            if (row[nps - 1] == "TRUE" || row[nps - 1] == "1")
+            {
+                data.rebuild = true;
+            }
+            else
+            {
+                data.rebuild = false;
+            }
+            simplex_data.push_back(data);
         }
+        this->build_simplex_data();
     }
+
+    void build_simplex_data()
+    {
+        std::cout << "Building simplex data..." << std::endl;
+        // this->input_values.resize(simplex_data.size());
+        for (auto &data : simplex_data)
+        {
+            std::vector<T> p(data.nparts - 2);
+            for (size_t j = 0; j < data.nparts - 2; j++)
+            {
+                p[j] = data.p[j];
+            }
+            this->Normalize(p);
+            this->input_values.push_back(p);
+        }
+        std::cout<<"input_values size: " << this->input_values.size() << "\n";
+    }
+
     /**
      * @brief Normalize the simplex data to sum to one.
      * @param p The vector of probabilities.
      */
-    void Normalize(std::vector<atl::Variable<T> > &p)
+    void Normalize(std::vector<atl::Variable<T>> &p)
+
+    {
+        T sum = 0;
+        for (const auto &val : p)
+        {
+            sum += val;
+        }
+
+        if (sum != 0)
+        {
+            for (auto &val : p)
+            {
+                val /= sum;
+            }
+        }
+    }
+
+    void Normalize(std::vector<T> &p)
 
     {
         T sum = 0;
@@ -152,15 +161,15 @@ public:
 
         for (size_t i = 0; i < x.size(); ++i)
         {
-            this->p[i].SetName("p" + std::to_string(i));
-            this->p[i].SetBounds(0.00001, 0.9999999);
+             this->p[i].SetName("p" + std::to_string(i));
+            // this->p[i].SetBounds(0.00001, 0.9999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
     }
 
     virtual atl::Variable<T> Evaluate()
     {
-        this->Normalize(this->p);
+        // this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::DEFAULT>(x, p, theta);
     }
@@ -198,13 +207,13 @@ public:
         for (size_t i = 0; i < x.size(); ++i)
         {
             this->p[i].SetName("p" + std::to_string(i));
-            this->p[i].SetBounds(0.00001, 0.9999999);
+            // this->p[i].SetBounds(0.00001, 0.9999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
     }
     virtual atl::Variable<T> Evaluate()
     {
-        this->Normalize(this->p);
+        // this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::THORSON>(x, p, theta);
     }
@@ -239,7 +248,7 @@ public:
         for (size_t i = 0; i < x.size(); ++i)
         {
             this->p[i].SetName("p" + std::to_string(i));
-            this->p[i].SetBounds(0.00001, 0.999999);
+            // this->p[i].SetBounds(0.00001, 0.999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
     }
@@ -280,14 +289,14 @@ public:
         for (size_t i = 0; i < x.size(); ++i)
         {
             this->p[i].SetName("p" + std::to_string(i));
-            this->p[i].SetBounds(0.00001, 0.999999);
+            // this->p[i].SetBounds(0.00001, 0.999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
     }
 
     virtual atl::Variable<double> Evaluate()
     {
-        this->Normalize(this->p);
+        // this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::LINEAR>(x, p, theta);
     }
@@ -317,7 +326,7 @@ public:
         this->description = "Functional analysis of the Saturated Dirichlet distribution.";
 
         this->beta.SetName("beta");
-        this->beta.SetBounds(0.00001, 5.0);
+        // this->beta.SetBounds(0.00001, 5.0);
         this->RegisterParameter(this->beta, 0.01);
 
         for (size_t i = 0; i < x.size(); ++i)
@@ -330,7 +339,7 @@ public:
 
     virtual atl::Variable<double> Evaluate()
     {
-        this->Normalize(this->p);
+        // this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::SATURATED>(x, p, beta);
     }

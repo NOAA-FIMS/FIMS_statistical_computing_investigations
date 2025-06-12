@@ -103,11 +103,12 @@ public:
 
     bool write_values = true;
     bool write_derivatives = true;
+    bool build_parameter_sets = true;
 
     FunctionalAnalysis()
     {
     }
-    
+
     /**
      * @brief Set the output directory for the analysis.
      * @details This directory is used to store the results of the analysis.
@@ -159,33 +160,42 @@ public:
         std::cout << "Running functional analysis for " << this->name << "...\n";
         double progress = 0;
         this->start_time = std::chrono::system_clock::now();
-
-        // initialize all parameter values
-        this->input_values.resize(this->parameters.size());
-        for (int i = 0; i < this->parameters.size(); i++)
+        if (this->build_parameter_sets)
         {
-            for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += this->deltas[i])
+
+            // initialize all parameter values
+            this->input_values.resize(this->parameters.size());
+            for (int i = 0; i < this->parameters.size(); i++)
             {
-                input_values[i].push_back(v);
+                for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += this->deltas[i])
+                {
+                    input_values[i].push_back(v);
+                }
             }
         }
-
         // create argument list. Combination of input_values size(input_values) choose size(parameters)
         std::cout << "\nBuilding argument set..." << std::flush;
         std::vector<T> working(this->parameters.size());
         int count = 0;
         int current = 0;
 
-        if (this->parameters.size() > 1)
+        if (this->parameters.size() > 1 && this->build_parameter_sets)
+        {
+            // build parameter sets
+            this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
+        }
+        else if (this->parameters.size() == 1 && this->build_parameter_sets)
         {
             this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
         }
         else
         {
-            parameter_sets.resize(input_values[0].size());
-            for (int i = 0; i < input_values[0].size(); i++)
+            std::cout << "No parameter sets to build. Using input values directly.\n";
+            parameter_sets.resize(input_values.size());
+            std::cout << "input values size: " << input_values.size() << "\n";
+            for (int i = 0; i < input_values.size(); i++)
             {
-                this->parameter_sets[i].push_back(input_values[0][i]);
+                this->parameter_sets[i] = input_values[i];
             }
         }
         std::cout << "done.\n";
@@ -317,7 +327,8 @@ public:
         std::cout << "done.\n";
     }
 
-    std::pair<T, T> FindMinMax(const std::vector<T> &v)
+    std::pair<T, T>
+    FindMinMax(const std::vector<T> &v)
     {
 
         T min_ = v[0]; //-1.0*std::numeric_limits<T>::infinity();
@@ -487,11 +498,11 @@ public:
      * @param source
      * @param combos
      */
-    void ParameterSetsBuilder(int &count,
-                              int current,
-                              std::vector<T> &working,
-                              std::vector<std::vector<T>> &source,
-                              std::vector<std::vector<T>> &combos)
+    virtual void ParameterSetsBuilder(int &count,
+                                      int current,
+                                      std::vector<T> &working,
+                                      std::vector<std::vector<T>> &source,
+                                      std::vector<std::vector<T>> &combos)
     {
 
         if (current == 0)
