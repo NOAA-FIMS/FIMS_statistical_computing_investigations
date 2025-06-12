@@ -9,6 +9,7 @@ template <typename T>
 struct simplex_data
 {
     int nparts;
+    std::vector<T> p;
     T p_1;
     T p_2;
     T p_3;
@@ -44,17 +45,23 @@ public:
             auto &row = simplex_from_csv[i];
 
             ::simplex_data<T> data;
-            data.nparts = nps;
-            if (nps == 8)
+             data.nparts = nps;
+            data.p.resize(nps-1);
+            for (size_t j = 0; j < nps - 1; j++)
             {
-                data.p_1 = static_cast<T>(std::stod(row[0]));
-                data.p_2 = static_cast<T>(std::stod(row[1]));
-                data.p_3 = static_cast<T>(std::stod(row[2]));
-                data.p_4 = static_cast<T>(std::stod(row[3]));
-                data.p_5 = static_cast<T>(std::stod(row[4]));
-                data.p_6 = static_cast<T>(std::stod(row[5]));
-                data.score = static_cast<T>(std::stod(row[6]));
-                if (row[7] == "TRUE" || row[7] == "1")
+                data.p[j] = static_cast<T>(std::stod(row[j]));
+            }
+           
+            // if (nps == 8)
+            // {
+            //     data.p_1 = static_cast<T>(std::stod(row[0]));
+            //     data.p_2 = static_cast<T>(std::stod(row[1]));
+            //     data.p_3 = static_cast<T>(std::stod(row[2]));
+            //     data.p_4 = static_cast<T>(std::stod(row[3]));
+            //     data.p_5 = static_cast<T>(std::stod(row[4]));
+            //     data.p_6 = static_cast<T>(std::stod(row[5]));
+            //     data.score = static_cast<T>(std::stod(row[6]));
+                if (row[nps-1] == "TRUE" || row[nps-1] == "1")
                 {
                     data.rebuild = true;
                 }
@@ -63,24 +70,25 @@ public:
                     data.rebuild = false;
                 }
                 simplex_data.push_back(data);
-            }
-            else if (nps == 5)
-            {
-                data.p_1 = static_cast<T>(std::stod(row[0]));
+            // }
+            // else if (nps == 5)
+            // {
 
-                data.p_2 = static_cast<T>(std::stod(row[1]));
-                data.p_3 = static_cast<T>(std::stod(row[2]));
-                data.score = static_cast<T>(std::stod(row[3]));
-                if (row[4] == "TRUE" || row[4] == "1")
-                {
-                    data.rebuild = true;
-                }
-                else
-                {
-                    data.rebuild = false;
-                }
-                simplex_data.push_back(data);
-            }
+            //     data.p_1 = static_cast<T>(std::stod(row[0]));
+
+            //     data.p_2 = static_cast<T>(std::stod(row[1]));
+            //     data.p_3 = static_cast<T>(std::stod(row[2]));
+            //     data.score = static_cast<T>(std::stod(row[3]));
+            //     if (row[4] == "TRUE" || row[4] == "1")
+            //     {
+            //         data.rebuild = true;
+            //     }
+            //     else
+            //     {
+            //         data.rebuild = false;
+            //     }
+            //     simplex_data.push_back(data);
+            // // }
         }
     }
     /**
