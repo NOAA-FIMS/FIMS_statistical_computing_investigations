@@ -1,6 +1,8 @@
 #ifndef DIRICHLET_FA_HPP
 #define DIRICHLET_FA_HPP
 #include <vector>
+#include <algorithm>
+#include <iostream>
 #include "../functional_analysis.hpp"
 #include "include/dirichlet.hpp"
 #include "../util/string_util.hpp"
@@ -19,6 +21,22 @@ struct simplex_data
     T score;
     bool rebuild;
 };
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const std::vector<T> &data)
+{
+    os << "[";
+    for (size_t i = 0; i < data.size(); ++i)
+    {
+        os << data[i];
+        if (i < data.size() - 1)
+        {
+            os << ", ";
+        }
+    }
+    os << "]";
+    return os;
+}
 
 template <typename T>
 class Dirichlet_Study_Base : public FunctionalAnalysis<T>
@@ -74,12 +92,33 @@ public:
             std::vector<T> p(data.nparts - 2);
             for (size_t j = 0; j < data.nparts - 2; j++)
             {
-                p[j] = data.p[j];
+                p[j] = data.p[j] + 1e-8; // add a small value to avoid zero probabilities
             }
             this->Normalize(p);
             this->input_values.push_back(p);
         }
-        std::cout<<"input_values size: " << this->input_values.size() << "\n";
+        std::cout << "input_values size: " << this->input_values.size() << "\n";
+    }
+
+    void build_input_values()
+    {
+        std::cout << "Making input values..." << std::endl;
+        this->input_values.clear();
+        for (size_t i = 0; i < simplex_data.size(); i++)
+        {
+            for (size_t j = 0; j < simplex_data.size(); j++)
+            {
+                std::vector<T> input_row;
+                input_row.insert(input_row.end(), simplex_data[i].p.begin(), simplex_data[i].p.end() - 1);
+                input_row.insert(input_row.end(), simplex_data[j].p.begin(), simplex_data[j].p.end() - 1);
+                this->input_values.push_back(input_row);
+            }
+        }
+        for (size_t i = 0; i < this->input_values.size(); i++)
+        {
+            std::cout << "Input values: " << this->input_values[i] << "\n";
+        }
+        std::cout << "input_values size: " << this->input_values.size() << "\n";
     }
 
     /**
@@ -147,6 +186,8 @@ public:
     {
         this->simplex_from_csv = parseCSV(csv_file);
         this->parse_simplex_data();
+        this->build_input_values();
+        exit(0);
     }
 
     virtual void Initialize()
@@ -161,7 +202,7 @@ public:
 
         for (size_t i = 0; i < x.size(); ++i)
         {
-             this->p[i].SetName("p" + std::to_string(i));
+            this->p[i].SetName("p" + std::to_string(i));
             // this->p[i].SetBounds(0.00001, 0.9999999);
             this->RegisterParameter(this->p[i], 0.1);
         }
@@ -169,7 +210,7 @@ public:
 
     virtual atl::Variable<T> Evaluate()
     {
-        // this->Normalize(this->p);
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::DEFAULT>(x, p, theta);
     }
@@ -254,6 +295,7 @@ public:
     }
     virtual atl::Variable<T> Evaluate()
     {
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<T>,
                                               fims_math::DirichletType::FISCHER>(x, p, theta);
     }
@@ -296,7 +338,7 @@ public:
 
     virtual atl::Variable<double> Evaluate()
     {
-        // this->Normalize(this->p);
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::LINEAR>(x, p, theta);
     }
@@ -339,7 +381,7 @@ public:
 
     virtual atl::Variable<double> Evaluate()
     {
-        // this->Normalize(this->p);
+        this->Normalize(this->p);
         return fims_math::ddirichlet_multinom<atl::Variable<double>,
                                               fims_math::DirichletType::SATURATED>(x, p, beta);
     }

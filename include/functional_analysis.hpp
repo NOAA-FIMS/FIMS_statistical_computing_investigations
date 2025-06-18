@@ -5,6 +5,9 @@
 #include <limits>
 #include <chrono>
 #include <complex>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 // #include <stxxl.h>
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -606,7 +609,19 @@ public:
 
     T Mean(const std::vector<T> &v)
     {
-        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+        // accumulate ignores NaN values
+        T sum = std::accumulate(v.begin(), v.end(), 0.0,
+                                [](T acc, T val)
+                                {
+                                    if (std::isnan(val))
+                                    {
+                                        return acc;
+                                    }
+                                    else
+                                    {
+                                        return acc + val;
+                                    }
+                                });
         T mean = sum / v.size();
 
         return mean;
