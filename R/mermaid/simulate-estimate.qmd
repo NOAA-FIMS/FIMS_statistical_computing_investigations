@@ -1,0 +1,20 @@
+---
+title: "Compare Dirichlet Multinomial Parameterizations"
+subtitle: "\\LARGE Linear versus Saturated"
+format:
+  pdf:
+    documentclass: article
+    geometry: landscape
+---
+
+```{mermaid}
+graph TD
+    A((True Population <br> Proportion at Age <br> P<sub>true</sub>)) -- Simulate Age<br>Composition Samples --> B((ObservedPopulation<br>N<sub>input</sub>, P<sub>obs</sub>))
+    B --> C1(Apply Functional<br>Analysis Tool<br>At P<sub>obs</sub>)
+    C1 --> D1(NLL, Gradient, Stochasticity of Gradient)
+    B --> C2(Fit Linear<br>Dirichlet Multinomial)
+    C2 --> D2(N<sub>eff</sub>, P<sub>pred</sub>, θ<sub>pred</sub>, ϵ<sub>pred</sub>)
+    B --> C3(Fit Saturated<br>Dirichlet Multinomial)
+    C3 --> D3(N<sub>eff</sub>, P<sub>pred</sub>, β<sub>pred</sub>, ϵ<sub>pred</sub>)
+
+```
