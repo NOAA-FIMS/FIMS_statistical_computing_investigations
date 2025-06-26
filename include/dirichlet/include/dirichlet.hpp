@@ -60,11 +60,11 @@ namespace fims_math
     }
 
     template <typename T>
-    inline T log_dirichlet_multinom_thorson(const std::vector<int> &x, const std::vector<T> &p, T theta)
+    inline T log_dirichlet_multinom_thorson(const std::vector<int> &x, const std::vector<T> &p, T beta)
     {
         std::vector<T> alpha(p.size());
         for (size_t k = 0; k < p.size(); ++k)
-            alpha[k] = p[k] * theta;
+            alpha[k] = p[k] * beta;
         return log_dirichlet_multinom(x, alpha);
     }
 
@@ -72,11 +72,11 @@ namespace fims_math
     inline T log_dirichlet_multinom_fisch(const std::vector<int> &x, const std::vector<T> &p, T theta)
     {
         int N = std::accumulate(x.begin(), x.end(), 0);
-        T neff = ((T(1.0) + theta) * static_cast<T>(N)) / (T(1.0) + theta * static_cast<T>(N));
+ //       T neff = ((T(1.0) + theta) * static_cast<T>(N)) / (T(1.0) + theta * static_cast<T>(N));
 
         std::vector<T> alpha(p.size());
         for (size_t k = 0; k < p.size(); ++k)
-            alpha[k] = p[k] * neff;
+            alpha[k] = p[k] * theta * N;
 
         return log_dirichlet_multinom(x, alpha);
     }
