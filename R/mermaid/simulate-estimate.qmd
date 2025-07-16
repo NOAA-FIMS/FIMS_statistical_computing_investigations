@@ -1,0 +1,39 @@
+---
+format:
+  html:
+    documentclass: article
+    geometry: landscape
+---
+# Which Dirichlet-Multinomial Parameterization - Linear or Saturated - Is Better for Fitting Compositional Data in Stock Assessment Applications?
+## An Algorithmic Approach to Evaluate Relative Performance
+
+Here's an initial algorithm to evaluate relative performance of the linear and saturated Dirichlet-multinomial likelihoods for fitting age composition data over the set of possible proportions at age at a given time. 
+
++ Sample the true age composition from the proportion simplex grid
+  - To Be Determined ~ Condition the acceptance of the sample on the fishery system characteristics, like fishery selectivity, total mortality, and recruitment patterns 
++ Apply the functional analysis tool to analyze the likelihood surface in the neighborhood of the true age composition point
++ Simulate-Estimate age compositions under each Dirichlet-multinomial distribution
+  - Simulate observed age composition(s) with error for fixed sample size(s)
+  - Estimate predicted age compositions with both distributions
++ Output performance metrics from functional analysis for both distributions
++ Output predicted age compositions and goodness-of-fit metrics for both distributions
++ Repeat for the next grid point in the simplex   
+
+The following diagram illustrates the workflow for simulating and analyzing age composition data. Starting from a true population distribution of proportions-at-age ($P_{\text{true}}$), simulated age composition samples are generated to represent observed proportions-at-age ($P_{\text{obs}}$). These observations are then analyzed using a functional analysis tool and two estimation models: a **linear Dirichlet-multinomial model** and a **saturated Dirichlet-multinomial model**, each producing predicted proportions ($P_{\text{pred}}$), dispersion parameters ($\theta_{\text{pred}}$, $\beta_{\text{pred}}$), effective sample sizes ($N_{\text{eff}}$) and other performance metrics.
+
+```{mermaid}
+graph TD
+    Z(Sample True Population<br>Age Composition<br>Over Proportion Simplex) -- Condition on<br>Mortality, Recruitment,<br>Selectivity Hypotheses --> A((True Population <br> Proportion at Age <br> P<sub>true</sub>)) 
+    A -- Simulate Age<br>Composition Samples<br>Many Times --> B((Observed Population<br>N<sub>input</sub>, P<sub>obs</sub>))
+    A --> C1(Apply Functional<br>Analysis Tool<br>At P<sub>true</sub>)
+    C1 -- Output --> D11(Linear DM Metrics for<br>NLL, Gradient,<br> Stochasticity of Gradient, ...)
+    C1 -- Output --> D12(Saturated DM Metrics For<br>NLL, Gradient,<br> Stochasticity of Gradient, ...)
+    B --> C2(Fit Linear<br>Dirichlet Multinomial)
+    C2 -- Output --> D2(N<sub>eff</sub>, P<sub>pred</sub>, θ<sub>pred</sub>, ϵ<sub>pred</sub>)
+    B --> C3(Fit Saturated<br>Dirichlet Multinomial)
+    C3 -- Output --> D3(N<sub>eff</sub>, P<sub>pred</sub>, β<sub>pred</sub>, ϵ<sub>pred</sub>)
+D11 --> E(Synthesize and Summarize Results)
+D12 --> E
+D2 --> E
+D3 --> E
+```

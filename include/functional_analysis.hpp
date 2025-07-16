@@ -5,6 +5,9 @@
 #include <limits>
 #include <chrono>
 #include <complex>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 // #include <stxxl.h>
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -38,14 +41,14 @@ public:
 
     std::string name;
     std::string description;
-
+    std::string output_directory = "";
     T delta = 1e-3;
 
     // all possible input values
     std::vector<std::vector<T>> input_values;
 
     // parameter set
-    std::vector<std::vector<T> > parameter_sets;
+    std::vector<std::vector<T>> parameter_sets;
 
     // function values from each evaluation
     std::vector<T> values;
@@ -72,7 +75,7 @@ public:
     T min_value = std::numeric_limits<T>::max();
 
     // max evaluated function value
-    T max_value = std::numeric_limits<T>::lowest();//-1.7976931348623157e+308;
+    T max_value = std::numeric_limits<T>::lowest(); //-1.7976931348623157e+308;
 
     // parameter set for the min evaluated function value
     std::vector<T> parameter_set_min;
@@ -103,9 +106,19 @@ public:
 
     bool write_values = true;
     bool write_derivatives = true;
+    bool build_parameter_sets = true;
 
     FunctionalAnalysis()
     {
+    }
+
+    /**
+     * @brief Set the output directory for the analysis.
+     * @details This directory is used to store the results of the analysis.
+     */
+    void SetOutputDirectory(const std::string &directory)
+    {
+        this->output_directory = directory;
     }
 
     void ClearData()
@@ -150,33 +163,42 @@ public:
         std::cout << "Running functional analysis for " << this->name << "...\n";
         double progress = 0;
         this->start_time = std::chrono::system_clock::now();
-
-        // initialize all parameter values
-        this->input_values.resize(this->parameters.size());
-        for (int i = 0; i < this->parameters.size(); i++)
+        if (this->build_parameter_sets)
         {
-            for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += this->deltas[i])
+
+            // initialize all parameter values
+            this->input_values.resize(this->parameters.size());
+            for (int i = 0; i < this->parameters.size(); i++)
             {
-                input_values[i].push_back(v);
+                for (T v = this->parameters[i]->GetMinBoundary(); v <= this->parameters[i]->GetMaxBoundary(); v += this->deltas[i])
+                {
+                    input_values[i].push_back(v);
+                }
             }
         }
-
         // create argument list. Combination of input_values size(input_values) choose size(parameters)
         std::cout << "\nBuilding argument set..." << std::flush;
         std::vector<T> working(this->parameters.size());
         int count = 0;
         int current = 0;
 
-        if (this->parameters.size() > 1)
+        if (this->parameters.size() > 1 && this->build_parameter_sets)
+        {
+            // build parameter sets
+            this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
+        }
+        else if (this->parameters.size() == 1 && this->build_parameter_sets)
         {
             this->ParameterSetsBuilder(count, current, working, input_values, parameter_sets);
         }
         else
         {
-            parameter_sets.resize(input_values[0].size());
-            for (int i = 0; i < input_values[0].size(); i++)
+            std::cout << "No parameter sets to build. Using input values directly.\n";
+            parameter_sets.resize(input_values.size());
+            std::cout << "input values size: " << input_values.size() << "\n";
+            for (int i = 0; i < input_values.size(); i++)
             {
-                this->parameter_sets[i].push_back(input_values[0][i]);
+                this->parameter_sets[i] = input_values[i];
             }
         }
         std::cout << "done.\n";
@@ -227,18 +249,18 @@ public:
             if (v.GetValue() < this->min_value)
             {
                 this->min_value = v.GetValue();
-                for(size_t j = 0; j < this->parameters.size(); j++)
+                for (size_t j = 0; j < this->parameters.size(); j++)
                 {
                     this->parameter_set_min[j] = this->parameters[j]->GetValue();
                 }
             }
 
-            if (v.GetValue()  > this->max_value)
+            if (v.GetValue() > this->max_value)
             {
-                 
+
                 this->max_value = v.GetValue();
-                for(size_t j = 0; j < this->parameters.size(); j++)
-                {   
+                for (size_t j = 0; j < this->parameters.size(); j++)
+                {
                     this->parameter_set_max[j] = this->parameters[j]->GetValue();
                 }
             }
@@ -308,7 +330,8 @@ public:
         std::cout << "done.\n";
     }
 
-    std::pair<T, T> FindMinMax(const std::vector<T> &v)
+    std::pair<T, T>
+    FindMinMax(const std::vector<T> &v)
     {
 
         T min_ = v[0]; //-1.0*std::numeric_limits<T>::infinity();
@@ -421,7 +444,7 @@ public:
     {
         std::ofstream out;
         std::stringstream ss;
-        ss << this->name << "_values.csv";
+        ss << this->output_directory << this->name << "_values.csv";
         out.open(ss.str().c_str());
         for (int i = 0; i < this->values.size() - 1; i++)
         {
@@ -434,7 +457,7 @@ public:
     {
         std::ofstream out;
         std::stringstream ss;
-        ss << this->name << "_derivatives.csv";
+        ss << this->output_directory << this->name << "_derivatives.csv";
         out.open(ss.str().c_str());
 
         for (int i = 0; i < this->parameters.size(); i++)
@@ -478,11 +501,11 @@ public:
      * @param source
      * @param combos
      */
-    void ParameterSetsBuilder(int &count,
-                              int current,
-                              std::vector<T> &working,
-                              std::vector<std::vector<T>> &source,
-                              std::vector<std::vector<T>> &combos)
+    virtual void ParameterSetsBuilder(int &count,
+                                      int current,
+                                      std::vector<T> &working,
+                                      std::vector<std::vector<T>> &source,
+                                      std::vector<std::vector<T>> &combos)
     {
 
         if (current == 0)
@@ -586,7 +609,19 @@ public:
 
     T Mean(const std::vector<T> &v)
     {
-        T sum = std::accumulate(v.begin(), v.end(), 0.0);
+        // accumulate ignores NaN values
+        T sum = std::accumulate(v.begin(), v.end(), 0.0,
+                                [](T acc, T val)
+                                {
+                                    if (std::isnan(val))
+                                    {
+                                        return acc;
+                                    }
+                                    else
+                                    {
+                                        return acc + val;
+                                    }
+                                });
         T mean = sum / v.size();
 
         return mean;

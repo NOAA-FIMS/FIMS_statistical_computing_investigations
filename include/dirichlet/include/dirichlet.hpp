@@ -1,5 +1,5 @@
-#ifndef DIRCHLET_HPP
-#define DIRCHLET_HPP
+#ifndef DIRICHLET_HPP
+#define DIRICHLET_HPP
 
 #include <vector>
 #include <numeric>
@@ -12,13 +12,13 @@ namespace fims_math
     T lgamma_lanczos(const T &X)
     {
         // A & S eq. 6.1.48 (continuing fraction)
-        T a0 = 1.0 / 12;
-        T a1 = 1.0 / 30;
-        T a2 = 53.0 / 210;
-        T a3 = 195.0 / 371;
-        T a4 = 22999.0 / 22737;
-        T a5 = 29944523.0 / 19733142;
-        T a6 = 109535241009.0 / 48264275462;
+        T a0 = 1.0 / 12.0;
+        T a1 = 1.0 / 30.0;
+        T a2 = 53.0 / 210.0;
+        T a3 = 195.0 / 371.0;
+        T a4 = 22999.0 / 22737.0;
+        T a5 = 29944523.0 / 19733142.0;
+        T a6 = 109535241009.0 / 48264275462.0;
 
         T t6 = a6 / X;
         T t5 = a5 / (X + t6);
@@ -38,6 +38,8 @@ namespace fims_math
     {
         THORSON = 0,
         FISCHER,
+        LINEAR,
+        SATURATED,
         DEFAULT
     };
 
@@ -58,11 +60,11 @@ namespace fims_math
     }
 
     template <typename T>
-    inline T log_dirichlet_multinom_thorson(const std::vector<int> &x, const std::vector<T> &p, T theta)
+    inline T log_dirichlet_multinom_thorson(const std::vector<int> &x, const std::vector<T> &p, T beta)
     {
         std::vector<T> alpha(p.size());
         for (size_t k = 0; k < p.size(); ++k)
-            alpha[k] = p[k] * theta;
+            alpha[k] = p[k] * beta;
         return log_dirichlet_multinom(x, alpha);
     }
 
@@ -70,13 +72,81 @@ namespace fims_math
     inline T log_dirichlet_multinom_fisch(const std::vector<int> &x, const std::vector<T> &p, T theta)
     {
         int N = std::accumulate(x.begin(), x.end(), 0);
-        T neff = ((T(1.0) + theta) * static_cast<T>(N)) / (T(1.0) + theta * static_cast<T>(N));
-        
+ //       T neff = ((T(1.0) + theta) * static_cast<T>(N)) / (T(1.0) + theta * static_cast<T>(N));
+
         std::vector<T> alpha(p.size());
         for (size_t k = 0; k < p.size(); ++k)
-            alpha[k] = p[k] * neff;
+            alpha[k] = p[k] * theta * N;
 
         return log_dirichlet_multinom(x, alpha);
+    }
+
+    template <typename T>
+    inline T log_dirichlet_multinom_linear(const std::vector<int> &x, const std::vector<T> &pred_p, T theta)
+    {
+        T loglik = 0.0;
+        int ncat = x.size();
+        T N = 0.0;
+        for (int i = 0; i < ncat; ++i)
+        {
+            N += x[i];
+        }
+        // neff = (1 + theta * N)/(1 + theta)
+        T neff = (T(1.0) + theta * static_cast<T>(N)) / (T(1.0) + theta);
+
+        // Dirichlet-Multinomial Log-Likelihood linear parameterization
+        // Term 1 in eqn 4.4 of Fisch et al. (2021. Fish. Res., Table 3)
+        loglik += lgamma_lanczos(T(N + 1.0));
+        // Term 2
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik -= lgamma_lanczos(T(x[i] + 1.0));
+        }
+        // Term 3
+        loglik += lgamma_lanczos(T(N * theta));
+        // Term 4
+        loglik -= lgamma_lanczos(T(N * theta + N));
+        // Term 5
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik += lgamma_lanczos(T(static_cast<double>(x[i]) + theta * N * pred_p[i])) - lgamma_lanczos(T(theta * N * pred_p[i]));
+        }
+
+        return loglik;
+    }
+
+    template <typename T>
+    inline T log_dirichlet_multinom_saturated(const std::vector<int> &x, const std::vector<T> &pred_p, T beta)
+    {
+        T loglik = 0.0;
+        int ncat = x.size();
+        T N = 0.0;
+        for (int i = 0; i < ncat; ++i)
+        {
+            N += x[i];
+        }
+        // neff = N * (1 + beta)/(N + beta)
+        T neff = static_cast<T>(N) * (T(1.0) + beta) / (static_cast<T>(N) + beta);
+
+        // Dirichlet-Multinomial Log-Likelihood saturated parameterization
+        // Term 1 in eqn 4.5 of Fisch et al. (2021. Fish. Res., Table 3)
+        loglik += lgamma_lanczos(T(N + 1.0));
+        // Term 2
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik -= lgamma_lanczos(T(x[i] + 1.0));
+        }
+        // Term 3
+        loglik += lgamma_lanczos(beta);
+        // Term 4
+        loglik -= lgamma_lanczos(T(beta + N));
+        // Term 5
+        for (int i = 0; i < ncat; ++i)
+        {
+            loglik += lgamma_lanczos(T(static_cast<double>(x[i]) + beta * pred_p[i])) - lgamma_lanczos(T(beta * pred_p[i]));
+        }
+
+        return loglik;
     }
 
     template <typename T, DirichletType type = DirichletType::DEFAULT>
@@ -94,6 +164,12 @@ namespace fims_math
             break;
         case DirichletType::FISCHER:
             log_prob = log_dirichlet_multinom_fisch(x, p, theta);
+            break;
+        case DirichletType::LINEAR:
+            log_prob = log_dirichlet_multinom_linear(x, p, theta);
+            break;
+        case DirichletType::SATURATED:
+            log_prob = log_dirichlet_multinom_saturated(x, p, theta);
             break;
         default:
             log_prob = log_dirichlet_multinom(x, p);
